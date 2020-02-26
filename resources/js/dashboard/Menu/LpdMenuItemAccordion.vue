@@ -15,6 +15,7 @@
                 :key="getMenuItemKey(item, index)"
                 :is="item.component"
                 v-bind="{...item.props, subgroup: true}"
+                :link-clicked="linkClicked"
         />
     </v-list-group>
 </template>
@@ -30,6 +31,7 @@
             title: String,
             icon: String,
             items: Array,
+            linkClicked: null,
         }
     }
 </script>

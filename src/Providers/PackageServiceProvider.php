@@ -2,15 +2,11 @@
 
 namespace Larapress\Dashboard\Providers;
 
-use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\ServiceProvider;
 use Larapress\CRUDRender\Base\BaseCRUDBladeRenderProvider;
-use Larapress\CRUDRender\Base\BaseJSONRenderProvider;
 use Larapress\CRUDRender\Base\ICRUDBladeViewProvider;
 use Larapress\CRUDRender\Base\ICRUDRenderProvider;
-use Larapress\Dashboard\Base\BladeCRUDViewProvider;
-use Larapress\Dashboard\Base\JSONCRUDViewProvider;
-use Larapress\Dashboard\Base\VueCRUDViewProvider;
+use Larapress\Dashboard\Rendering\VueCRUDViewProvider;
 
 class PackageServiceProvider extends ServiceProvider
 {
@@ -21,7 +17,7 @@ class PackageServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(ICRUDRenderProvider::class, function ($app, $params) {
+        $bladeRendererProvider = function ($app, $params) {
             if (isset($params['metadata'])) {
                 $metadata = call_user_func([$params['metadata'], 'instance']);
                 if (!is_null($metadata)) {
@@ -35,8 +31,11 @@ class PackageServiceProvider extends ServiceProvider
                 }
             }
 
-            throw new BindingResolutionException();
-        });
+            return null;
+        };
+
+        $this->app->bind(ICRUDBladeViewProvider::class, $bladeRendererProvider);
+        $this->app->bind(ICRUDRenderProvider::class, $bladeRendererProvider);
     }
 
     /**
@@ -55,7 +54,7 @@ class PackageServiceProvider extends ServiceProvider
         ], ['config', 'larapress', 'larapress-dashboard']);
 
         $this->publishes([
-            __DIR__.'/../../resources/dis' => storage_path('app/public/vendor/larapress-dashboard'),
+            __DIR__.'/../../resources/dist' => storage_path('app/public/vendor/larapress-dashboard'),
         ], ['assets', 'larapress', 'larapress-dashboard']);
     }
 }

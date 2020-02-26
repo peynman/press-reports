@@ -23,20 +23,20 @@ mix.js('resources/js/app.js', '/js')
         'vue-axios',
         'vue-template-compiler',
         'vuex',
-    ]).setPublicPath('resources/dis/');
+    ]).setPublicPath('resources/dist/');
 
 
 
-mix.sass('resources/sass/app.scss', 'resources/dis/css')
+mix.sass('resources/sass/app.scss', 'resources/dist/css')
     .setResourceRoot('../')
     .then(() => {
-        exec('node_modules/rtlcss/bin/rtlcss.js resources/dis/css/app.css resources/dis/css/app-rtl.css');
+        exec('node_modules/rtlcss/bin/rtlcss.js resources/dist/css/app.css resources/dist/css/app-rtl.css');
     });
 
 if (mix.inProduction()) {
     mix.version();
 } else {
-    mix.copyDirectory('resources/dis/', '../../storage/app/public/vendor/larapress-dashboard');
+    mix.copyDirectory('resources/dist/', '../../storage/app/public/vendor/larapress-dashboard');
 }
 
 mix.disableNotifications();

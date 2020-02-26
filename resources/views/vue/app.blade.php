@@ -1,4 +1,4 @@
-@extends(\Larapress\Dashboard\Base\BladeCRUDViewProvider::getThemeViewName('layouts.master'))
+@extends(\Larapress\Dashboard\Rendering\BladeCRUDViewProvider::getThemeViewName('layouts.master'))
 
 @section('page-title', trans('dashboard.pages.home.title'))
 @section('lang-direction', '')
@@ -21,86 +21,8 @@
 
 @section('pre-scripts')
     <script>
-        window.DashboardConfig = {
-            RTL: false,
-            basePath: '{{ config('larapress.crud-render.prefix') }}',
-            page: {
-                title: 'Larapress Dashboard',
-            },
-            options: {
-                title: 'Account',
-            },
-            sideMenuItems: [
-                {
-                    component: 'lpd-menu-item-single',
-                    props: {
-                        title: 'Dashboard',
-                        icon: 'home',
-                        url: '#',
-                        key: 'dashboard-home',
-                    },
-                },
-                {
-                    component: 'lpd-menu-item-header',
-                    props: {
-                        title: 'Account Area',
-                    },
-                },
-                {
-                    component: 'lpd-menu-item-accordion',
-                    props: {
-                        title: 'Accounts',
-                        icon: 'home',
-                        items: [
-                            {
-                                component: 'lpd-menu-item-single',
-                                props: {
-                                    title: 'Dashboard',
-                                    icon: 'home',
-                                    url: '#',
-                                    key: 'dashboard-home',
-                                },
-                            },
-                            {
-                                component: 'lpd-menu-item-single',
-                                props: {
-                                    title: 'Dashboard',
-                                    icon: 'home',
-                                    url: '#',
-                                    key: 'dashboard-home',
-                                },
-                            },
-                            {
-                                component: 'lpd-menu-item-accordion',
-                                props: {
-                                    title: 'SubGroup',
-                                    items: [
-                                        {
-                                            component: 'lpd-menu-item-single',
-                                            props: {
-                                                title: 'Dashboard',
-                                                icon: 'home',
-                                                url: '#',
-                                                key: 'dashboard-home',
-                                            },
-                                        },
-                                        {
-                                            component: 'lpd-menu-item-single',
-                                            props: {
-                                                title: 'Dashboard',
-                                                icon: 'home',
-                                                url: '#',
-                                                key: 'dashboard-home',
-                                            },
-                                        },
-                                    ]
-                                }
-                            }
-                        ]
-                    }
-                }
-            ],
-        }
+        window.AppConfig = {!! json_encode($config) !!};
+        console.log(window.AppConfig);
     </script>
     <script src="{{ asset('/storage/vendor/larapress-dashboard/js/manifest.js') }}"></script>
     <script src="{{ asset('/storage/vendor/larapress-dashboard/js/vendor.bundle.js') }}"></script>

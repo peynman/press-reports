@@ -1,4 +1,7 @@
 export default {
     setSideMenuVisible: 'setSideMenuVisible',
-    setOptionsMenuVisible: 'setOptionsMenuVisible'
+    setOptionsMenuVisible: 'setOptionsMenuVisible',
+    updateJWTToken: 'updateJWTToken',
+    setOptions: 'setOptions',
+    setLanguage: 'setLanguage',
 }

@@ -1,17 +1,20 @@
 <?php
 
 return [
-    'blade' => [
-        'theme' => [
+    'theme' => [
+        'blade' => [
             'name' => null,
-            'namespace' => 'larapress-dashboard'
+            'namespace' => 'larapress-dashboard',
         ],
+        'translations' => [
+            'namespace' => 'larapress'
+        ]
     ],
     'redirects' => [
-        'login' => 'dashboard.any',
-        'logout' => 'dashboard.login.view',
-        'home' => 'home',
-        'signup' => 'dashboard.login.view',
+        'login' => '',
+        'logout' => '',
+        'home' => '',
+        'signup' => '',
     ],
 
     'controllers' => [

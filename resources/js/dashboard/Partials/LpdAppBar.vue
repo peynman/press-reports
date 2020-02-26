@@ -41,8 +41,8 @@
 
         </v-menu>
 
-        <v-btn outlined dark @click="setOptionsMenuVisible(!isOptionsMenuVisible)">
-            {{ optionsTitle }}
+        <v-btn dark icon @click="setOptionsMenuVisible(!isOptionsMenuVisible)">
+            <v-icon>settings</v-icon>
         </v-btn>
 
     </v-app-bar>

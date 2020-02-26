@@ -4,8 +4,8 @@
             v-model="visible"
             :right="rtl"
     >
-        <v-toolbar flat>
-            <v-toolbar-title>Title</v-toolbar-title>
+        <v-toolbar flat v-if="toolbar && !toolbar.hide">
+            <v-toolbar-title>{{ username }}</v-toolbar-title>
 
             <v-spacer></v-spacer>
             <v-btn icon v-if="visible"  @click.stop="setSideMenuVisible(false)">
@@ -31,6 +31,14 @@
 
     export default {
         name: "lpd-side-menu",
+        props: {
+            toolbar: {
+                type: Object,
+                default: function () {
+                    return {}
+                },
+            },
+        },
         computed: {
             visible: {
                 get() { return this.$store.state.page.sidebar.visible; },
@@ -40,6 +48,7 @@
                 drawerIcon: state => state.config.rtl ? 'chevron_right':'chevron_left',
                 rtl: state => state.config.rtl,
                 items: state => state.page.sidebar.items,
+                username: state => state.page.user.name,
             }),
         },
         methods: {

@@ -5,7 +5,7 @@ namespace Larapress\Dashboard\Middleware;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Larapress\CRUDRender\Base\BaseJSONRenderProvider;
 use Larapress\CRUDRender\Base\ICRUDRenderProvider;
-use Larapress\Dashboard\Base\JSONCRUDViewProvider;
+use Larapress\Dashboard\Rendering\JSONCRUDViewProvider;
 
 class JSONCRUDRenderRequest
 {
@@ -21,7 +21,7 @@ class JSONCRUDRenderRequest
     public function handle($request, \Closure $next)
     {
         if (in_array('application/json', $request->getAcceptableContentTypes())) {
-            app()->extend(ICRUDRenderProvider::class, function ($app, $params) {
+            app()->bind(ICRUDRenderProvider::class, function ($app, $params) {
                 if (isset($params['metadata'])) {
                     $metadata = call_user_func([$params['metadata'], 'instance']);
                     if (!is_null($metadata)) {
@@ -34,7 +34,7 @@ class JSONCRUDRenderRequest
                     }
                 }
 
-                throw new BindingResolutionException();
+                return null;
             });
         }
 
