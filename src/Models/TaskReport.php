@@ -1,10 +1,10 @@
 <?php
 
 
-namespace Larapress\Dashboard\Models;
+namespace Larapress\Reports\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Larapress\Dashboard\Flags\TaskReportStatus;
+use Larapress\Reports\Flags\TaskReportStatus;
 
 /**
  * @property int            $id

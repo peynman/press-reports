@@ -1,11 +1,11 @@
 <?php
 
 
-namespace Larapress\Dashboard\CRUD;
+namespace Larapress\Reports\CRUD;
 
 use Larapress\CRUD\Base\BaseCRUDProvider;
 use Larapress\CRUD\Base\ICRUDProvider;
-use Larapress\Dashboard\Models\TaskReport;
+use Larapress\Reports\Models\TaskReport;
 
 class TaskReportsCRUDProvider implements ICRUDProvider
 {

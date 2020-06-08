@@ -1,6 +1,6 @@
 <?php
 
-namespace Larapress\Dashboard\Metadata;
+namespace Larapress\Reports\Metadata;
 
 use Larapress\CRUD\Base\SingleSourceBaseMetadata;
 

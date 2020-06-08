@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Larapress\Dashboard\Flags;
+namespace Larapress\Reports\Flags;
 
 use Larapress\Core\BaseType;
 
