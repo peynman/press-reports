@@ -2,7 +2,7 @@
 
 namespace Larapress\Reports\Commands;
 
-use Larapress\Core\Commands\ActionCommandBase;
+use Larapress\CRUD\Commands\ActionCommandBase;
 use Larapress\Reports\Services\IReportsService;
 
 class ReportsCommands extends ActionCommandBase

@@ -3,7 +3,7 @@
 
 namespace Larapress\Reports\Flags;
 
-use Larapress\Core\BaseType;
+use Larapress\CRUD\BaseType;
 
 class TaskReportStatus
 {
