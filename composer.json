@@ -26,8 +26,8 @@
         }
     },
     "require": {
-        "php": "^7.2",
-        "laravel/framework": "^6.2",
+        "php": "^7.2.5",
+        "laravel/framework": "^7.0",
         "peynman/larapress-crud": "master",
         "influxdb/influxdb-php": "^1.15"
     },
