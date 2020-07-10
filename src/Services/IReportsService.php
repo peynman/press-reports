@@ -2,6 +2,8 @@
 
 namespace Larapress\Reports\Services;
 
+use Carbon\Carbon;
+
 /**
  * Undocumented interface
  */
@@ -25,4 +27,19 @@ interface IReportsService {
      * @return void
      */
     public function batchReportMeasurements(int $max);
+
+    /**
+     * Undocumented function
+     *
+     * @param String $name
+     * @param array $filters
+     * @param array $groups
+     * @param array $columns
+     * @param Carbon $from
+     * @param [type] $to
+     * @param [type] $function
+     * @return array
+     */
+    public function queryMeasurement(String $name, array $filters, array $groups, array $columns, Carbon $from, $to, $function);
+
 }

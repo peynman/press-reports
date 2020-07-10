@@ -38,10 +38,5 @@ class PackageServiceProvider extends ServiceProvider
                 ReportsCommands::class,
             ]);
         }
-
-        // $this->app->booted(function () {
-        //     $schedule = app(Schedule::class);
-        //     $schedule->command('foo:bar')->everyMinute();
-        // });
     }
 }

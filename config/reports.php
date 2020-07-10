@@ -30,4 +30,10 @@ return [
         'token' => env('INFLUXDB_TOKEN', ''),
         'org' => env('INFLUXDB_ORG', 'app'),
     ],
+
+    'routes' => [
+        'task-reports' => [
+            'names' => 'task-reports',
+        ]
+    ]
 ];

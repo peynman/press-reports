@@ -10,8 +10,10 @@ use Larapress\Reports\Flags\TaskReportStatus;
  * @property int            $id
  * @property string         $type
  * @property string         $title
- * @property string         $key
+ * @property string         $name
  * @property int            $status
+ * @property \Carbon\Carbon $stopped_at
+ * @property \Carbon\Carbon $stopped_at
  * @property string         $description
  * @property array          $data
  * @property \Carbon\Carbon $created_at
@@ -23,53 +25,20 @@ class TaskReport extends Model
 
     protected $fillable = [
         'type',
-        'key',
+        'name',
         'status',
         'description',
         'data',
+        'stopped_at',
+        'started_at',
     ];
 
     protected $casts = [
         'data' => 'array',
     ];
 
-
-    /**
-     * @param string   $type
-     * @param string   $key
-     * @param callable $callback
-     *
-     * @return mixed
-     */
-    public static function makeReport($type, $key, $callback)
-    {
-        /** @var TaskReport $task */
-        $task = TaskReport::create([
-            'type' => $type,
-            'key' => $key,
-            'status' => TaskReportStatus::CREATED,
-        ]);
-        $onSuccess = function ($desc, $data) use ($task) {
-            $task->update([
-                'status' => TaskReportStatus::SUCCESS,
-                'description' => $desc,
-                'data' => $data
-            ]);
-        };
-        $onFailed = function ($desc, $data) use ($task) {
-            $task->update([
-                'status' => TaskReportStatus::FAILED,
-                'description' => $desc,
-                'data' => $data
-            ]);
-        };
-        $onStarted = function ($desc, $data) use ($task) {
-            $task->update([
-                'status' => TaskReportStatus::EXECUTING,
-                'description' => $desc,
-                'data' => $data
-            ]);
-        };
-        return $callback($onStarted, $onSuccess, $onFailed);
-    }
+	protected $dates = [
+		'stopped_at',
+		'started_at',
+    ];
 }
