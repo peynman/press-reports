@@ -10,7 +10,7 @@ class TaskReportController extends BaseCRUDController
     public static function registerRoutes()
     {
         parent::registerCrudRoutes(
-            config('larapress.crud.routes.roles.name'),
+            config('larapress.reports.routes.task_reports.name'),
             self::class,
             TaskReportsCRUDProvider::class
         );

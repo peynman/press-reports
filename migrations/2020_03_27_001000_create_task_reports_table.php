@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePermissionsTable extends Migration
+class CreateTaskReportsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,6 +15,7 @@ class CreatePermissionsTable extends Migration
     {
         Schema::create('task_reports', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->bigInteger('author_id', false, true);
             $table->string('type');
             $table->string('name');
             $table->integer('status');
@@ -24,6 +25,8 @@ class CreatePermissionsTable extends Migration
             $table->dateTime('stopped_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
+
+            $table->foreign('author_id')->references('id')->on('users');
         });
     }
 

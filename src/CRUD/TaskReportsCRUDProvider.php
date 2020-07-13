@@ -12,17 +12,15 @@ class TaskReportsCRUDProvider implements ICRUDProvider, IPermissionsMetadata
 {
     use BaseCRUDProvider;
 
-    public $name_in_config = 'larapress.reports.routes.task-reports.name';
+    public $name_in_config = 'larapress.reports.routes.task_reports.name';
     public $verbs = [
         self::VIEW,
         self::DELETE,
     ];
     public $model = TaskReport::class;
-    public $createValidations = [
+    public $validRelations = [
+        'author',
     ];
-    public $updateValidations = [
-    ];
-    public $autoSyncRelations = [];
     public $validSortColumns = [
         'id',
         'name',
@@ -33,11 +31,4 @@ class TaskReportsCRUDProvider implements ICRUDProvider, IPermissionsMetadata
         'started_at',
         'stopped_at',
     ];
-    public $validRelations = [];
-    public $validFilters = [];
-    public $defaultShowRelations = [];
-    public $excludeIfNull = [];
-    public $searchColumns = [];
-    public $filterDefaults = [];
-    public $filterFields = [];
 }

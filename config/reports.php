@@ -32,8 +32,8 @@ return [
     ],
 
     'routes' => [
-        'task-reports' => [
-            'names' => 'task-reports',
+        'task_reports' => [
+            'name' => 'task-reports',
         ]
     ]
 ];
