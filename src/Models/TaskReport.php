@@ -31,6 +31,7 @@ class TaskReport extends Model
         'data',
         'stopped_at',
         'started_at',
+        'author_id',
     ];
 
     protected $casts = [
@@ -41,4 +42,6 @@ class TaskReport extends Model
 		'stopped_at',
 		'started_at',
     ];
+
+
 }

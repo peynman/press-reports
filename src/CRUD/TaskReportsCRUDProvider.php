@@ -15,11 +15,10 @@ class TaskReportsCRUDProvider implements ICRUDProvider, IPermissionsMetadata
     public $name_in_config = 'larapress.reports.routes.task_reports.name';
     public $verbs = [
         self::VIEW,
-        self::DELETE,
+        'queue',
     ];
     public $model = TaskReport::class;
     public $validRelations = [
-        'author',
     ];
     public $validSortColumns = [
         'id',

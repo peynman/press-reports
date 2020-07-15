@@ -15,7 +15,6 @@ class CreateTaskReportsTable extends Migration
     {
         Schema::create('task_reports', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('author_id', false, true);
             $table->string('type');
             $table->string('name');
             $table->integer('status');
@@ -25,8 +24,6 @@ class CreateTaskReportsTable extends Migration
             $table->dateTime('stopped_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
-
-            $table->foreign('author_id')->references('id')->on('users');
         });
     }
 

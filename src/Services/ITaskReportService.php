@@ -24,4 +24,18 @@ interface ITaskReportService {
      * @return void
      */
     public function scheduleTask(string $type, string $name, string $desc, array $data, $autoStart = false);
+
+    /**
+     * Undocumented function
+     * @return TaskReport[]
+     */
+    public function queueScheduledTasks();
+
+    /**
+     * Undocumented function
+     *
+     * @param int $id
+     * @return TaskReport
+     */
+    public function queueScheduledTask($id);
 }

@@ -6,7 +6,11 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use Larapress\CRUD\Commands\ActionCommandBase;
+use Larapress\CRUD\Events\CRUDVerbEvent;
+use Larapress\Reports\CRUD\TaskReportsCRUDProvider;
+use Larapress\Reports\Models\TaskReport;
 use Larapress\Reports\Services\IReportsService;
+use Larapress\Reports\Services\ITaskReportService;
 
 class ReportsCommands extends ActionCommandBase
 {
@@ -33,22 +37,41 @@ class ReportsCommands extends ActionCommandBase
     {
         parent::__construct([
             'sync:influxdb' => $this->syncInfluxDB(),
+            'tasks:queue' => $this->queueScheduledTasks(),
             'test' => $this->test(),
         ]);
     }
 
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
     public function syncInfluxDB() {
         return function () {
             /** @var IReportsService */
             $scheduler = app()->make(IReportsService::class);
-            Log::debug('report sent');
             $scheduler->batchReportMeasurements(1000);
+        };
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
+    public function queueScheduledTasks() {
+        return function () {
+            /** @var ITaskReportService */
+            $service = app(ITaskReportService::class);
+            $service->queueScheduledTasks();
         };
     }
 
     public function test() {
         return function () {
-            dd(User::find(1));
+            $task = TaskReport::find(15);
+            CRUDVerbEvent::dispatch($task, TaskReportsCRUDProvider::class, Carbon::now(), 'queue');
         };
     }
 }
