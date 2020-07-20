@@ -103,12 +103,17 @@ class TaskReportService implements ITaskReportService {
             $handler = new $typeClass();
             if (isset($task->data['auto_start']) && $task->data['auto_start']) {
                 if (!isset($task->data['queued_at'])) {
-                    $handler->handle($task);
-                    $data = $task->data;
-                    $data['queued_at'] = Carbon::now();
-                    $task->update([
-                        'data' => $data,
-                    ]);
+                    if (is_string($task->data['auto_start'])) {
+                        $timestamp = Carbon::parse($task->data['auto_start']);
+
+                    } else {
+                        $handler->handle($task);
+                        $data = $task->data;
+                        $data['queued_at'] = Carbon::now();
+                        $task->update([
+                            'data' => $data,
+                        ]);
+                    }
                 }
             }
         }

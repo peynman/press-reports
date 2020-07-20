@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace Larapress\Reports\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Larapress\Profiles\Models\Domain;
