@@ -3,9 +3,9 @@
 
 namespace Larapress\Reports\CRUD;
 
-use Larapress\CRUD\Base\BaseCRUDProvider;
-use Larapress\CRUD\Base\ICRUDProvider;
-use Larapress\CRUD\Base\IPermissionsMetadata;
+use Larapress\CRUD\Services\BaseCRUDProvider;
+use Larapress\CRUD\Services\ICRUDProvider;
+use Larapress\CRUD\Services\IPermissionsMetadata;
 use Larapress\Reports\Models\TaskReport;
 
 class TaskReportsCRUDProvider implements ICRUDProvider, IPermissionsMetadata
