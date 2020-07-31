@@ -78,7 +78,6 @@ class InfluxDBReportService implements IReportsService
                 }
                 $mes->time($rec['timestamp']);
                 $wApi->write($mes);
-                Log::debug('influx message', $rec);
             }
 
             $wApi->close();
