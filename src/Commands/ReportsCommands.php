@@ -37,6 +37,7 @@ class ReportsCommands extends ActionCommandBase
     {
         parent::__construct([
             'sync:influxdb' => $this->syncInfluxDB(),
+            'sync:purge' => $this->syncInfluxDBPurge(),
             'tasks:queue' => $this->queueScheduledTasks(),
             'test' => $this->test(),
         ]);
@@ -49,9 +50,23 @@ class ReportsCommands extends ActionCommandBase
      */
     public function syncInfluxDB() {
         return function () {
+            ini_set('memory_limit', '1024M');
             /** @var IReportsService */
             $scheduler = app()->make(IReportsService::class);
-            $scheduler->batchReportMeasurements(1000);
+            $scheduler->batchReportMeasurements(256);
+        };
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
+    public function syncInfluxDBPurge() {
+        return function () {
+            /** @var IReportsService */
+            $scheduler = app()->make(IReportsService::class);
+            $scheduler->barchReportPurge();
         };
     }
 

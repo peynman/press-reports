@@ -31,6 +31,13 @@ interface IReportsService {
     /**
      * Undocumented function
      *
+     * @return void
+     */
+    public function barchReportPurge();
+
+    /**
+     * Undocumented function
+     *
      * @param String $name
      * @param array $filters
      * @param array $groups

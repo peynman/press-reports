@@ -160,4 +160,15 @@ class InfluxDBReportService implements IReportsService
 
         return $this->client;
     }
+
+
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
+    public function barchReportPurge() {
+        $redis = Redis::connection(config('larapress.reports.batch.connection'));
+        $redis->del(config('larapress.reports.batch.key'));
+    }
 }

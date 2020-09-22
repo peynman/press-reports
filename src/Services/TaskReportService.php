@@ -3,6 +3,7 @@
 namespace Larapress\Reports\Services;
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Larapress\CRUD\Events\CRUDUpdated;
 use Larapress\CRUD\Events\CRUDVerbEvent;
@@ -37,7 +38,7 @@ class TaskReportService implements ITaskReportService {
             'data' => $data,
             'started_at' => Carbon::now(),
         ]);
-        CRUDVerbEvent::dispatch($task, TaskReportsCRUDProvider::class, Carbon::now(), 'queue');
+        CRUDVerbEvent::dispatch(Auth::user(), $task, TaskReportsCRUDProvider::class, Carbon::now(), 'queue');
         $onSuccess = function ($desc, $data) use ($task) {
             $task->update([
                 'status' => TaskReportStatus::SUCCESS,
@@ -45,7 +46,7 @@ class TaskReportService implements ITaskReportService {
                 'data' => $data,
                 'stopped_at' => Carbon::now(),
             ]);
-            CRUDVerbEvent::dispatch($task, TaskReportsCRUDProvider::class, Carbon::now(), 'queue');
+            CRUDVerbEvent::dispatch(Auth::user(), $task, TaskReportsCRUDProvider::class, Carbon::now(), 'queue');
         };
         $onFailed = function ($desc, $data) use ($task) {
             $task->update([
@@ -54,7 +55,7 @@ class TaskReportService implements ITaskReportService {
                 'data' => $data,
                 'stopped_at' => Carbon::now(),
             ]);
-            CRUDVerbEvent::dispatch($task, TaskReportsCRUDProvider::class, Carbon::now(), 'queue');
+            CRUDVerbEvent::dispatch(Auth::user(), $task, TaskReportsCRUDProvider::class, Carbon::now(), 'queue');
         };
         $onUpdate = function ($desc, $data) use($task) {
             $task->update([
@@ -63,7 +64,7 @@ class TaskReportService implements ITaskReportService {
                 'data' => $data,
                 'stopped_at' => Carbon::now(),
             ]);
-            CRUDVerbEvent::dispatch($task, TaskReportsCRUDProvider::class, Carbon::now(), 'queue');
+            CRUDVerbEvent::dispatch(Auth::user(), $task, TaskReportsCRUDProvider::class, Carbon::now(), 'queue');
         };
         return $callback($onUpdate, $onSuccess, $onFailed);
     }

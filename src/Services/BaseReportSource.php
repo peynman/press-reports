@@ -52,6 +52,9 @@ trait BaseReportSource {
             $filters = array_merge($filters, $options['filters']);
         }
         $groups = isset($options['group']) ? $options['group'] : [];
+
+
+
         return [$filters, $fromC, $toC, $groups];
     }
 }
