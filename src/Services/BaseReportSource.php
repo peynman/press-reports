@@ -31,7 +31,11 @@ trait BaseReportSource {
     public function getCommonReportProps($user, $options) {
         $filters = [];
         if (!$user->hasRole(config('larapress.profiles.security.roles.super-role'))) {
-            $filters['domain'] = $user->getAffiliateDomainIds();
+            if ($user->hasRole(config('larapress.ecommerce.lms.support_role_id'))) {
+                $filters['support'] = $user->id;
+            } else {
+                $filters['domain'] = $user->getAffiliateDomainIds();
+            }
         }
         if ($options['filters']) {
             foreach($options['filters'] as $filter => $values) {
@@ -43,10 +47,10 @@ trait BaseReportSource {
         $fromC = Carbon::now()->addHour(-6);
         $toC = Carbon::now();
         if (isset($options['from'])) {
-            $fromC = Carbon::createFromFormat(config('larapress.crud.datetime-format'), $options['from'])->utc();
+            $fromC = Carbon::parse($options['from'])->utc();
         }
         if (isset($options['to'])) {
-            $toC = Carbon::createFromFormat(config('larapress.crud.datetime-format'), $options['to'])->utc();
+            $toC = Carbon::parse($options['to'])->utc();
         }
         if (isset($options['filters'])) {
             $filters = array_merge($filters, $options['filters']);
