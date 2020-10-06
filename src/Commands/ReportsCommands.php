@@ -39,7 +39,6 @@ class ReportsCommands extends ActionCommandBase
             'sync:influxdb' => $this->syncInfluxDB(),
             'sync:purge' => $this->syncInfluxDBPurge(),
             'tasks:queue' => $this->queueScheduledTasks(),
-            'test' => $this->test(),
         ]);
     }
 
@@ -80,13 +79,6 @@ class ReportsCommands extends ActionCommandBase
             /** @var ITaskReportService */
             $service = app(ITaskReportService::class);
             $service->queueScheduledTasks();
-        };
-    }
-
-    public function test() {
-        return function () {
-            $task = TaskReport::find(15);
-            CRUDVerbEvent::dispatch($task, TaskReportsCRUDProvider::class, Carbon::now(), 'queue');
         };
     }
 }

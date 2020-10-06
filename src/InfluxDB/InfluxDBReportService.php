@@ -26,7 +26,7 @@ class InfluxDBReportService implements IReportsService
     public function pushMeasurement(String $name, int $value, array $tags, array $fields, int $timestamp)
     {
         $redis = Redis::connection(config('larapress.reports.batch.connection'));
-        $redis->rpush(config('larapress.reports.batch.key'), json_encode([
+        $redis->sadd(config('larapress.reports.batch.key'), json_encode([
             'name' => $name,
             'timestamp' => $timestamp,
             'tags' => $tags,
@@ -45,18 +45,14 @@ class InfluxDBReportService implements IReportsService
     {
         $redis = Redis::connection(config('larapress.reports.batch.connection'));
 
-        $records = $redis->lrange(config('larapress.reports.batch.key'), 0, -1);
+        $records = $redis->spop(config('larapress.reports.batch.key'), $max);
 
-        if (!is_null($records)) {
-            // remove grabbed records from redis
-            $redis->ltrim(config('larapress.reports.batch.key'), count($records), -1);
-
+        if (!is_null($records) && is_array(($records) && count($records) > 0)) {
             $client = $this->getClient();
             $wApi = $client->createWriteApi(
                 [
                     "writeType" => WriteType::BATCHING,
-                    'batchSize' => config('larapress.reports.influxdb.max_batch_size'),
-                    "flushInterval" => config('larapress.reports.influxdb.batch_interval')
+                    'batchSize' => count($records)
                 ]
             );
 
@@ -161,6 +157,22 @@ class InfluxDBReportService implements IReportsService
         return $this->client;
     }
 
+
+    /**
+     * Undocumented function
+     *
+     * @param String $name
+     * @param array $filters
+     * @return void
+     */
+    public function removeMeasurement(String $name, array $filters) {
+        $client = $this->getClient();
+        $wApi = $client->createWriteApi(
+            [
+                "writeType" => WriteType::BATCHING,
+            ]
+        );
+    }
 
     /**
      * Undocumented function

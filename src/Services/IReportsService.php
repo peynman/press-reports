@@ -49,4 +49,13 @@ interface IReportsService {
      */
     public function queryMeasurement(String $name, array $filters, array $groups, array $columns, Carbon $from, $to, $function);
 
+    /**
+     * Undocumented function
+     *
+     * @param String $name
+     * @param array $filters
+     * @return void
+     */
+    public function removeMeasurement(String $name, array $filters);
+
 }
