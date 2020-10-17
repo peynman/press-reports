@@ -1,11 +1,16 @@
+# W.I.P.
 
-# Larapress Dashboard
+# Larapress Reports
+A package to provide automatic and customized metrics and reporting for Larapress CRUD and other packages based on it.
 
-[![CircleCI](https://circleci.com/gh/peynman/larapress-dashboard.svg?style=svg)](https://circleci.com/gh/peynman/larapress-dashboard)
-[![Coverage Status](https://img.shields.io/codecov/c/github/peynman/larapress-dashboard.svg?branch=master&style=flat-square)](https://codecov.io/github/peynman/larapress-dashboard?branch=master)
-[![Latest Stable Version](https://img.shields.io/packagist/v/peynman/larapress-dashboard.svg?style=flat-square)](https://packagist.org/packages/peynman/larapress-dashboard)
-[![Total Downloads](https://img.shields.io/packagist/dt/peynman/larapress-dashboard.svg?style=flat-square)](https://packagist.org/packages/peynman/larapress-dashboard)
-[![License](https://img.shields.io/packagist/l/peynman/larapress-dashboard.svg?style=flat-square)](https://packagist.org/packages/peynman/larapress-dashboard)
-[![StyleCI](https://styleci.io/repos/225846364/shield)](https://styleci.io/repos/225846364)
+## Dependencies
+* Larapress CRUD
 
-## Start
+## Install
+1. ```composer require ```
+
+## Config
+1. Run ```php artisan vendor:publish --tag=larapress-reports```
+
+## Usage
+* 

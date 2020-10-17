@@ -17,9 +17,9 @@ return [
 
     'batch' => [
         'connection' => 'default',
-        'key' => 'crud.reports',
+        'key' => 'crud.reports.list',
         'max_batch_size' => 1000,
-        'batch_interval' => 1000, // milliseconds
+        'batch_interval' => 60000, // milliseconds
     ],
 
     'influxdb' => [

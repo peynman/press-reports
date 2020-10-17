@@ -26,7 +26,7 @@ class InfluxDBReportService implements IReportsService
     public function pushMeasurement(String $name, int $value, array $tags, array $fields, int $timestamp)
     {
         $redis = Redis::connection(config('larapress.reports.batch.connection'));
-        $redis->sadd(config('larapress.reports.batch.key'), json_encode([
+        $redis->rpush(config('larapress.reports.batch.key'), json_encode([
             'name' => $name,
             'timestamp' => $timestamp,
             'tags' => $tags,
@@ -45,14 +45,18 @@ class InfluxDBReportService implements IReportsService
     {
         $redis = Redis::connection(config('larapress.reports.batch.connection'));
 
-        $records = $redis->spop(config('larapress.reports.batch.key'), $max);
+        $records = $redis->lrange(config('larapress.reports.batch.key'), 0, -1);
 
-        if (!is_null($records) && is_array(($records) && count($records) > 0)) {
+        if (!is_null($records)) {
+            // remove grabbed records from redis
+            $redis->ltrim(config('larapress.reports.batch.key'), count($records), -1);
+
             $client = $this->getClient();
             $wApi = $client->createWriteApi(
                 [
                     "writeType" => WriteType::BATCHING,
-                    'batchSize' => count($records)
+                    'batchSize' => config('larapress.reports.influxdb.max_batch_size'),
+                    "flushInterval" => config('larapress.reports.influxdb.batch_interval')
                 ]
             );
 
@@ -161,26 +165,22 @@ class InfluxDBReportService implements IReportsService
     /**
      * Undocumented function
      *
-     * @param String $name
-     * @param array $filters
-     * @return void
-     */
-    public function removeMeasurement(String $name, array $filters) {
-        $client = $this->getClient();
-        $wApi = $client->createWriteApi(
-            [
-                "writeType" => WriteType::BATCHING,
-            ]
-        );
-    }
-
-    /**
-     * Undocumented function
-     *
      * @return void
      */
     public function barchReportPurge() {
         $redis = Redis::connection(config('larapress.reports.batch.connection'));
         $redis->del(config('larapress.reports.batch.key'));
+    }
+
+
+    /**
+     * Undocumented function
+     *
+     * @param String $name
+     * @param array $filters
+     * @return void
+     */
+    public function removeMeasurement(String $name, array $filters) {
+
     }
 }
