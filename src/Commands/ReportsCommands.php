@@ -9,6 +9,7 @@ use Larapress\CRUD\Commands\ActionCommandBase;
 use Larapress\CRUD\Events\CRUDVerbEvent;
 use Larapress\Reports\CRUD\TaskReportsCRUDProvider;
 use Larapress\Reports\Models\TaskReport;
+use Larapress\Reports\Services\ILaravelEchoMetrics;
 use Larapress\Reports\Services\IReportsService;
 use Larapress\Reports\Services\ITaskReportService;
 
@@ -39,6 +40,7 @@ class ReportsCommands extends ActionCommandBase
             'sync:influxdb' => $this->syncInfluxDB(),
             'sync:purge' => $this->syncInfluxDBPurge(),
             'tasks:queue' => $this->queueScheduledTasks(),
+            'echo:grab' => $this->grabEchoStatistics(),
         ]);
     }
 
@@ -79,6 +81,14 @@ class ReportsCommands extends ActionCommandBase
             /** @var ITaskReportService */
             $service = app(ITaskReportService::class);
             $service->queueScheduledTasks();
+        };
+    }
+
+    public function grabEchoStatistics() {
+        return function () {
+            /** @var ILaravelEchoMetrics */
+            $service = app(ILaravelEchoMetrics::class);
+            $service->pushEchoMeasurements();
         };
     }
 }
