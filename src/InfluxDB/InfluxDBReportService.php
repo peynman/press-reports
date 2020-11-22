@@ -3,13 +3,13 @@
 namespace Larapress\Reports\InfluxDB;
 
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redis;
 use Larapress\Reports\Services\IReportsService;
 use InfluxDB2\Client;
 use InfluxDB2\Point;
 use InfluxDB2\WriteType as WriteType;
 use InfluxDB2\FluxRecord;
+use InfluxDB2\DefaultApi;
 
 class InfluxDBReportService implements IReportsService
 {
@@ -47,7 +47,7 @@ class InfluxDBReportService implements IReportsService
 
         $records = $redis->lrange(config('larapress.reports.batch.key'), 0, -1);
 
-        if (!is_null($records)) {
+        if (!is_null($records) && is_array($records)) {
             // remove grabbed records from redis
             $redis->ltrim(config('larapress.reports.batch.key'), count($records), -1);
 
@@ -112,15 +112,17 @@ class InfluxDBReportService implements IReportsService
                 if (count($val) > 0) {
                     $vals = [];
                     foreach ($val as $vv) {
-                        $vals[] = 'r.'.$filter.' == "'.$vv.'"';
+                        $vals[] = 'r.' . $filter . ' == "' . $vv . '"';
                     }
-                    $queryString .= '|> filter(fn: (r) => '.implode(' or ', $vals).') ';
+                    $queryString .= '|> filter(fn: (r) => ' . implode(' or ', $vals) . ') ';
                 }
             } else {
                 $queryString .= '|> filter(fn: (r) => r.' . $filter . ' == "' . $val . '") ';
             }
         }
-        $queryString .= '|> group(columns: ' . json_encode($groups) . ')';
+        if (count($groups) > 0) {
+            $queryString .= '|> group(columns: ' . json_encode($groups) . ')';
+        }
         $queryString .= '|> ' . $function;
 
         $resultsets = $query->query($queryString);
@@ -154,7 +156,7 @@ class InfluxDBReportService implements IReportsService
                 "bucket" => config('larapress.reports.influxdb.database'),
                 "precision" => \InfluxDB2\Model\WritePrecision::S,
                 "org" => config('larapress.reports.influxdb.org'),
-                "token" => config('larapress.reports.influxdb.token')
+                "token" => config('larapress.reports.influxdb.token'),
             ]);
         }
 
@@ -167,7 +169,8 @@ class InfluxDBReportService implements IReportsService
      *
      * @return void
      */
-    public function barchReportPurge() {
+    public function barchReportPurge()
+    {
         $redis = Redis::connection(config('larapress.reports.batch.connection'));
         $redis->del(config('larapress.reports.batch.key'));
     }
@@ -178,9 +181,26 @@ class InfluxDBReportService implements IReportsService
      *
      * @param String $name
      * @param array $filters
-     * @return void
+     * @return bool
      */
-    public function removeMeasurement(String $name, array $filters) {
 
+    public function removeMeasurement(String $name, array $filters)
+    {
+        // $client = $this->getClient();
+        // /** @var DefaultApi */
+        // $api = new DefaultApi($client->options);
+
+        // $result = $api->post(json_encode(array_merge([
+        //     "_measurement" => $name,
+        //     "start" => '1970-01-01T00:00:00.00Z',
+        //     "stop" => Carbon::now()->toIso8601String(),
+        // ], $filters)), "/api/v2/delete", [
+        //     "bucket" => config('larapress.reports.influxdb.database'),
+        //     "org" => config('larapress.reports.influxdb.org'),
+        // ]);
+
+        //return $result->getStatusCode() == 200;
+
+        return false;
     }
 }

@@ -6,7 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Larapress\Reports\Services\IReportsService;
 use Larapress\Reports\Commands\ReportsCommands;
 use Larapress\Reports\InfluxDB\InfluxDBReportService;
-use Larapress\Reports\Services\ILaravelEchoMetrics;
+use Larapress\Reports\Services\LaravelEcho\ILaravelEchoMetrics;
 use Larapress\Reports\Services\IMetricsService;
 use Larapress\Reports\Services\ITaskReportService;
 use Larapress\Reports\Services\LaravelEchoMetrics;

@@ -2,14 +2,8 @@
 
 namespace Larapress\Reports\Commands;
 
-use App\Models\User;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Log;
 use Larapress\CRUD\Commands\ActionCommandBase;
-use Larapress\CRUD\Events\CRUDVerbEvent;
-use Larapress\Reports\CRUD\TaskReportsCRUDProvider;
-use Larapress\Reports\Models\TaskReport;
-use Larapress\Reports\Services\ILaravelEchoMetrics;
+use Larapress\Reports\Services\LaravelEcho\ILaravelEchoMetrics;
 use Larapress\Reports\Services\IReportsService;
 use Larapress\Reports\Services\ITaskReportService;
 

@@ -15,15 +15,16 @@ class MetricsService implements IMetricsService {
      * @param [type] $value
      * @return void
      */
-    public function pushMeasurement($domain_id, $key, $value, $timestamp = null) {
-        MetricCounter::create([
-            'domain_id' => $domain_id,
+    public function pushMeasurement($domain_id, $group, $key, $value, $timestamp = null) {
+        return MetricCounter::updateOrCreate([
             'key' => $key,
-            'value' => $value,
-            'created_at' => is_null($timestamp) ? Carbon::now() : $timestamp
+            'group' => $group,
+        ],[
+            'domain_id' => $domain_id,
+            'value' => floatval($value),
+            'created_at' => is_null($timestamp) ? Carbon::now()->toDateTimeString() : $timestamp->toDateTimeString()
         ]);
     }
-
 
     /**
      * Undocumented function
@@ -34,7 +35,7 @@ class MetricsService implements IMetricsService {
      * @param Carbon|null $to
      * @return float
      */
-    public function sumMeasurement($key, array $domains = [], $from = null, $to = null) {
+    public function sumMeasurement($key, array $domains = [], $from = null, $to = null) : float {
         $query = MetricCounter::query()->where('key', $key);
 
         if (count($domains) > 0) {
@@ -50,5 +51,26 @@ class MetricsService implements IMetricsService {
         }
 
         return $query->sum('value');
+    }
+
+
+    /**
+     * Undocumented function
+     *
+     * @param int $domain_id
+     * @param string $group
+     * @param string $key
+     * @return int
+     */
+    public function removeMeasurement($domain_id, $group = null, $key = null) {
+        $query = MetricCounter::query()->where('domain_id', $domain_id);
+        if (!is_null($group)) {
+            $query->where('group', $group);
+        }
+        if (!is_null($key)) {
+            $query->where('group', $key);
+        }
+
+        return $query->delete();
     }
 }

@@ -9,6 +9,7 @@ use Larapress\Profiles\Models\Domain;
  * @property int            $id
  * @property string         $key
  * @property float          $value
+ * @property string         $group
  * @property Domain         $domain
  * @property \Carbon\Carbon $created_at
  */
@@ -24,6 +25,7 @@ class MetricCounter extends Model
 
     protected $fillable = [
         'key',
+        'group',
         'value',
         'domain_id',
         'created_at',
@@ -35,5 +37,9 @@ class MetricCounter extends Model
     public function domain()
     {
         return $this->belongsTo(Domain::class, 'domain_id');
+    }
+
+    public function group_object() {
+
     }
 }

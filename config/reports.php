@@ -34,6 +34,15 @@ return [
     'routes' => [
         'task_reports' => [
             'name' => 'task-reports',
-        ]
+        ],
+        'reports' => [
+            'name' => 'reports',
+        ],
+        'metrics' => [
+            'name' => 'metrics',
+        ],
+        'laravel_echo' => [
+            'name' => 'laravel-echo',
+        ],
     ]
 ];

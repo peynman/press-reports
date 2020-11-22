@@ -11,7 +11,7 @@ interface IMetricsService {
      * @param float $value
      * @return void
      */
-    public function pushMeasurement($domain_id, $key, $value, $timestamp = null);
+    public function pushMeasurement($domain_id, $group, $key, $value, $timestamp = null);
 
     /**
      * Undocumented function
@@ -22,5 +22,15 @@ interface IMetricsService {
      * @param Carbon|null $to
      * @return float
      */
-    public function sumMeasurement($key, array $domains = [], $from = null, $to = null);
+    public function sumMeasurement($key, array $domains = [], $from = null, $to = null): float;
+
+    /**
+     * Undocumented function
+     *
+     * @param int $domain_id
+     * @param string $group
+     * @param string $key
+     * @return int
+     */
+    public function removeMeasurement($domain_id, $group = null, $key = null);
 }

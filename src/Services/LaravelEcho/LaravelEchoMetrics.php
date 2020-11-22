@@ -1,10 +1,9 @@
 <?php
 
-namespace Larapress\Reports\Services;
+namespace Larapress\Reports\Services\LaravelEcho;
 
-use Carbon\Carbon;
-use Larapress\Reports\Models\MetricCounter;
-use Larapress\CRUD\Events\CRUDCreated;
+use Illuminate\Support\Facades\Log;
+use Larapress\Reports\Services\IReportsService;
 
 class LaravelEchoMetrics implements ILaravelEchoMetrics {
     /**
@@ -44,6 +43,12 @@ class LaravelEchoMetrics implements ILaravelEchoMetrics {
         $service->pushMeasurement("website.online_users", $users_count, [], [], time());
     }
 
+    /**
+     * Undocumented function
+     *
+     * @param string $endPiont
+     * @return array
+     */
     protected function callEchoApiEndpoint($endPiont) {
         $protocol = config('broadcasting.connections.pusher.options.scheme');
         $host = config('broadcasting.connections.pusher.options.host');
@@ -61,7 +66,9 @@ class LaravelEchoMetrics implements ILaravelEchoMetrics {
 
         try {
             $data = json_decode($data, true);
-        } catch (\Exception $e) {}
+        } catch (\Exception $e) {
+            Log::critical('echo metrics error', [$e->getMessage()]);
+        }
 
         return [$httpCode, $data];
     }

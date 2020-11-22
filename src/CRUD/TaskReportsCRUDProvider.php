@@ -30,4 +30,8 @@ class TaskReportsCRUDProvider implements ICRUDProvider, IPermissionsMetadata
         'started_at',
         'stopped_at',
     ];
+    public $filterFields = [
+        'created_from' => 'after:created_at',
+        'created_to' => 'before:created_at',
+    ];
 }
