@@ -9,7 +9,7 @@ use Larapress\Reports\InfluxDB\InfluxDBReportService;
 use Larapress\Reports\Services\LaravelEcho\ILaravelEchoMetrics;
 use Larapress\Reports\Services\IMetricsService;
 use Larapress\Reports\Services\ITaskReportService;
-use Larapress\Reports\Services\LaravelEchoMetrics;
+use Larapress\Reports\Services\LaravelEcho\LaravelEchoMetrics;
 use Larapress\Reports\Services\MetricsService;
 use Larapress\Reports\Services\TaskReportService;
 
