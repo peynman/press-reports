@@ -32,8 +32,8 @@ class MetricsCRUDProvider implements ICRUDProvider, IPermissionsMetadata
         'created_at',
     ];
     public $filterFields = [
-        'from' => 'after:created_at',
-        'to' => 'before:created_at',
+        'created_from' => 'after:created_at',
+        'created_to' => 'before:created_at',
         'group' => 'equals:group',
         'key' => 'like:key',
     ];
