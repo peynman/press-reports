@@ -140,7 +140,7 @@ class MetricsService implements IMetricsService
      */
     public function queryMeasurement($key, $window = 84600, array $filters, array $groups = [], array $domains = [], $from = null, $to = null)
     {
-        $selects = [DB::raw("sum(value) as _value"), DB::raw("FLOOR(UNIX_TIMESTAMP(created_at)/$window)*$window as _time")];
+        $selects = [DB::raw("sum(value) as _value"), DB::raw("(FLOOR(UNIX_TIMESTAMP(created_at)/$window)*$window) * 1000 as _time")];
 
         foreach ($groups as $groupname => $groupIndex) {
             if (is_string($groupname) && is_numeric($groupIndex)) {
