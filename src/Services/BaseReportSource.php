@@ -57,8 +57,6 @@ trait BaseReportSource {
         }
         $groups = isset($options['group']) ? $options['group'] : [];
 
-
-
         return [$filters, $fromC, $toC, $groups];
     }
 }

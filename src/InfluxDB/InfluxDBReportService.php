@@ -117,7 +117,11 @@ class InfluxDBReportService implements IReportsService
                     $queryString .= '|> filter(fn: (r) => ' . implode(' or ', $vals) . ') ';
                 }
             } else {
-                $queryString .= '|> filter(fn: (r) => r.' . $filter . ' == "' . $val . '") ';
+                if ($val === '$exists') {
+                    $queryString .= '|> filter(fn: (r) => exists r.' . $filter . ') ';
+                } else {
+                    $queryString .= '|> filter(fn: (r) => r.' . $filter . ' == "' . $val . '") ';
+                }
             }
         }
         if (count($groups) > 0) {
