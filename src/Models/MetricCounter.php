@@ -4,6 +4,7 @@ namespace Larapress\Reports\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Larapress\Profiles\Models\Domain;
+use Larapress\Reports\Services\MetricCounterGroupCartRelationship;
 
 /**
  * @property int            $id
@@ -39,7 +40,14 @@ class MetricCounter extends Model
         return $this->belongsTo(Domain::class, 'domain_id');
     }
 
-    public function group_object() {
-
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
+    public function group_cart() {
+        return new MetricCounterGroupCartRelationship(
+            $this
+        );
     }
 }

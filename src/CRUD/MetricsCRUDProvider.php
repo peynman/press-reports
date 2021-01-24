@@ -22,6 +22,11 @@ class MetricsCRUDProvider implements ICRUDProvider, IPermissionsMetadata
     public $model = MetricCounter::class;
     public $validRelations = [
         'domain',
+        'group_cart',
+        'group_cart.customer',
+        'group_cart.customer.form_profile_default',
+        'group_cart.customer.form_support_user_profile',
+        'group_cart.customer.form_support_registration_entry',
     ];
     public $validSortColumns = [
         'id',

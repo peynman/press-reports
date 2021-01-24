@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Larapress\Reports\Models\MetricCounter;
 use Larapress\CRUD\Events\CRUDCreated;
 use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Facades\Log;
 
 class MetricsService implements IMetricsService
 {
@@ -92,11 +93,7 @@ class MetricsService implements IMetricsService
         /** @var Builder $query */
         $query = MetricCounter::query()->select($selects);
 
-        if (str_contains($key, "%")) {
-            $query->where('key', 'LIKE', $key);
-        } else {
-            $query->where('key', $key);
-        }
+        $query->where('key', 'RLIKE', $key);
 
         if (count($domains) > 0) {
             $query->whereIn('domain_id', $domains);
@@ -151,11 +148,7 @@ class MetricsService implements IMetricsService
         /** @var Builder $query */
         $query = MetricCounter::query()->select($selects);
 
-        if (str_contains($key, "%")) {
-            $query->where('key', 'LIKE', $key);
-        } else {
-            $query->where('key', $key);
-        }
+        $query->where('key', 'RLIKE', $key);
 
         if (count($domains) > 0) {
             $query->whereIn('domain_id', $domains);
