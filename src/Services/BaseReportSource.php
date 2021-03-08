@@ -3,8 +3,10 @@
 namespace Larapress\Reports\Services;
 
 use Carbon\Carbon;
+use Larapress\CRUD\ICRUDUser;
 
-trait BaseReportSource {
+trait BaseReportSource
+{
 
     /**
      * Undocumented function
@@ -20,7 +22,7 @@ trait BaseReportSource {
     /**
      * grab data from database and present it
      *
-     * @param IProfileUser|ICRUDUser $user
+     * @param ICRUDUser $user
      * @return void
      */
     public function getReport($user, string $name, array $options = [])
@@ -28,17 +30,30 @@ trait BaseReportSource {
         return $this->avReports[$name]($user, $options);
     }
 
-    public function getCommonReportProps($user, $options) {
+    /**
+     * Undocumented function
+     *
+     * @param ICRUDUser $user
+     * @param array $options
+     * @return [array $filters, Carbon $from, Carbon $to, array $groups]
+     */
+    public function getCommonReportProps($user, $options)
+    {
         $filters = [];
-        if (!$user->hasRole(config('larapress.profiles.security.roles.super-role'))) {
-            if ($user->hasRole(config('larapress.ecommerce.lms.support_role_id'))) {
-                $filters['support'] = $user->id;
-            } else {
-                $filters['domain'] = $user->getAffiliateDomainIds();
+
+        $providers = config('larapress.reports.common_filters');
+        if (!is_null($providers) && count($providers)) {
+            foreach ($providers as $providerClass) {
+                if (is_string($providerClass)) {
+                    /** @var IReportsServciceProvider $provider */
+                    $provider = new $providerClass();
+                    $filters = array_merge($filters, $provider->getFiltersForReports($user, $options));
+                }
             }
         }
-        if ($options['filters']) {
-            foreach($options['filters'] as $filter => $values) {
+
+        if (isset($options['filters'])) {
+            foreach ($options['filters'] as $filter => $values) {
                 if (!is_array($values) || count($values) > 0) {
                     $filters[$filter] = $values;
                 }
@@ -51,9 +66,6 @@ trait BaseReportSource {
         }
         if (isset($options['to'])) {
             $toC = Carbon::parse($options['to'])->utc();
-        }
-        if (isset($options['filters'])) {
-            $filters = array_merge($filters, $options['filters']);
         }
         $groups = isset($options['group']) ? $options['group'] : [];
 

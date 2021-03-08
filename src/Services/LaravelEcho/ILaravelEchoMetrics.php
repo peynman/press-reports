@@ -2,7 +2,8 @@
 
 namespace Larapress\Reports\Services\LaravelEcho;
 
-interface ILaravelEchoMetrics {
+interface ILaravelEchoMetrics
+{
     /**
      * Undocumented function
      *

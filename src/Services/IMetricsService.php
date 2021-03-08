@@ -2,7 +2,8 @@
 
 namespace Larapress\Reports\Services;
 
-interface IMetricsService {
+interface IMetricsService
+{
     /**
      * Undocumented function
      *

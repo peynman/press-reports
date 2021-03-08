@@ -2,7 +2,6 @@
 
 namespace Larapress\Reports\Controllers;
 
-use Illuminate\Http\Request;
 use Larapress\CRUD\CRUDControllers\BaseCRUDController;
 use Larapress\Reports\CRUD\TaskReportsCRUDProvider;
 use Larapress\Reports\Services\ITaskReportService;
@@ -34,7 +33,8 @@ class TaskReportController extends BaseCRUDController
      * @param int $id
      * @return TaskReport
      */
-    public function queueTask(ITaskReportService $service, $id) {
+    public function queueTask(ITaskReportService $service, $id)
+    {
         return $service->queueScheduledTask($id);
     }
 }

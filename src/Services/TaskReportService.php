@@ -4,16 +4,14 @@ namespace Larapress\Reports\Services;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
-use Larapress\CRUD\Events\CRUDUpdated;
 use Larapress\CRUD\Events\CRUDVerbEvent;
 use Larapress\CRUD\Exceptions\AppException;
 use Larapress\Reports\CRUD\TaskReportsCRUDProvider;
 use Larapress\Reports\Flags\TaskReportStatus;
 use Larapress\Reports\Models\TaskReport;
-use Larapress\Reports\Services\ITaskHandler;
 
-class TaskReportService implements ITaskReportService {
+class TaskReportService implements ITaskReportService
+{
 
     /**
      * Undocumented function
@@ -25,7 +23,8 @@ class TaskReportService implements ITaskReportService {
      * @param [type] $callback
      * @return void
      */
-    public function startSyncronizedTaskReport(string $type, string $name, string $desc, array $data, $callback) {
+    public function startSyncronizedTaskReport(string $type, string $name, string $desc, array $data, $callback)
+    {
         /** @var TaskReport $task */
         $task = TaskReport::firstOrCreate([
             'type' => $type,
@@ -57,7 +56,7 @@ class TaskReportService implements ITaskReportService {
             ]);
             CRUDVerbEvent::dispatch(Auth::user(), $task, TaskReportsCRUDProvider::class, Carbon::now(), 'queue');
         };
-        $onUpdate = function ($desc, $data) use($task) {
+        $onUpdate = function ($desc, $data) use ($task) {
             $task->update([
                 'status' => TaskReportStatus::EXECUTING,
                 'description' => $desc,
@@ -79,7 +78,8 @@ class TaskReportService implements ITaskReportService {
      * @param array $data
      * @return TaskReport
      */
-    public function scheduleTask(string $type, string $name, string $desc, array $data, $autoStart = false) {
+    public function scheduleTask(string $type, string $name, string $desc, array $data, $autoStart = false)
+    {
         /** @var TaskReport $task */
         return TaskReport::firstOrCreate([
             'type' => $type,
@@ -95,7 +95,8 @@ class TaskReportService implements ITaskReportService {
      * Undocumented function
      * @return TaskReport[]
      */
-    public function queueScheduledTasks() {
+    public function queueScheduledTasks()
+    {
         /** @var TaskReport[] */
         $tasks = TaskReport::where('status', TaskReportStatus::CREATED)->get();
         foreach ($tasks as $task) {
@@ -106,7 +107,6 @@ class TaskReportService implements ITaskReportService {
                 if (!isset($task->data['queued_at'])) {
                     if (is_string($task->data['auto_start'])) {
                         $timestamp = Carbon::parse($task->data['auto_start']);
-
                     } else {
                         $handler->handle($task);
                         $data = $task->data;
@@ -128,7 +128,8 @@ class TaskReportService implements ITaskReportService {
      * @param int $id
      * @return TaskReport
      */
-    public function queueScheduledTask($id) {
+    public function queueScheduledTask($id)
+    {
         /** @var TaskReport */
         $task = TaskReport::find($id);
         if ($task->status === TaskReportStatus::EXECUTING) {

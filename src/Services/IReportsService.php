@@ -7,7 +7,8 @@ use Carbon\Carbon;
 /**
  * Undocumented interface
  */
-interface IReportsService {
+interface IReportsService
+{
     /**
      * Undocumented function
      *
@@ -57,5 +58,4 @@ interface IReportsService {
      * @return void
      */
     public function removeMeasurement(String $name, array $filters);
-
 }

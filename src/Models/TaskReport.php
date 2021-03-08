@@ -4,7 +4,6 @@
 namespace Larapress\Reports\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Larapress\Reports\Flags\TaskReportStatus;
 
 /**
  * @property int            $id
@@ -38,10 +37,8 @@ class TaskReport extends Model
         'data' => 'array',
     ];
 
-	protected $dates = [
-		'stopped_at',
-		'started_at',
+    protected $dates = [
+        'stopped_at',
+        'started_at',
     ];
-
-
 }

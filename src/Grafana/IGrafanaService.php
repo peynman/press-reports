@@ -2,6 +2,6 @@
 
 namespace Larapress\Reports\Grafana;
 
-interface IGrafanaService {
-
+interface IGrafanaService
+{
 }

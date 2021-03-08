@@ -31,18 +31,47 @@ return [
         'org' => env('INFLUXDB_ORG', 'app'),
     ],
 
+
+    'common_filters' => [
+        \Larapress\Profiles\Services\DomainMetircs\DomainMetircsProvider::class,
+    ],
+
+    'permissions' => [
+        \Larapress\Reports\CRUD\MetricsCRUDProvider::class,
+        \Larapress\Reports\CRUD\TaskReportsCRUDProvider::class,
+        \Larapress\Reports\CRUD\LaravelEchoCRUDProvider::class,
+    ],
+
+    'controllers' => [
+        \Larapress\Reports\Controllers\MetricsController::class,
+        \Larapress\Reports\Controllers\LaravelEchoController::class,
+        \Larapress\Reports\Controllers\TaskReportController::class,
+    ],
+
     'routes' => [
         'task_reports' => [
             'name' => 'task-reports',
-        ],
-        'reports' => [
-            'name' => 'reports',
+            'model' => \Larapress\Reports\Models\TaskReport::class,
+            'extend' => [
+                'providers' => [
+                ]
+            ],
         ],
         'metrics' => [
             'name' => 'metrics',
+            'model' => \Larapress\ECommerce\Models\CartMetricsCounter::class,
+            // 'model' => \Larapress\Reports\Models\MetricCounter::class,
+            'extend' => [
+                'providers' => [
+                    \Larapress\ECommerce\CRUD\ProductMetricsCRUDProvider::class,
+                ]
+            ],
         ],
         'laravel_echo' => [
             'name' => 'laravel-echo',
+            'extend' => [
+                'providers' => []
+            ],
         ],
-    ]
+    ],
 ];

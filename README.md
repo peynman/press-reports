@@ -4,10 +4,10 @@
 A package to provide automatic and customized metrics and reporting for Larapress CRUD and other packages based on it.
 
 ## Dependencies
-* Larapress CRUD
+* [Larapress CRUD](../../../larapress-crud)
 
 ## Install
-1. ```composer require ```
+1. ```composer require peynman/larapress-reports```
 
 ## Config
 1. Run ```php artisan vendor:publish --tag=larapress-reports```
@@ -25,31 +25,5 @@ A package to provide automatic and customized metrics and reporting for Larapres
         'scheme' => env('ECHO_PROTOCOL', 'http')
     ],
     ````
-1. Add broadcasting auth endpoint to ``api.php``
-    ````php
-    Route::middleware(['api', 'auth:api',])->post('/broadcast/auth', function (Request $request) {
-        /** @var IBaseCRUDBroadcast */
-        $service = app(IBaseCRUDBroadcast::class);
-        return $service->authenticateRequest($request);
-    });
-    ````
-1. Add CRUD authrization channels to ``channels.php``
-    ````php
-    // general crud permissions
-    Broadcast::channel('crud.{name}.{verb}', function (ICRUDUser $user, $name, $verb) {
-        /** @var IBaseCRUDBroadcast */
-        $service = app(IBaseCRUDBroadcast::class);
-        return $service->authorizeForCRUDChannel($user, $name, $verb);
-    }, ['guards' => ['web', 'api']]);
-
-    // general crud permissions or
-    Broadcast::channel('crud.{name}.{verb}.${id}', function (ICRUDUser $user, $name, $verb, $uid) {
-        /** @var IBaseCRUDBroadcast */
-        $service = app(IBaseCRUDBroadcast::class);
-        return $service->authorizeForCRUDSupportChannel($user, $name, $verb, $uid);
-    }, ['guards' => ['web', 'api']]);
-
-    ````
 
 ## Usage
-* 

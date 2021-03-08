@@ -2,9 +2,7 @@
 
 namespace Larapress\Reports\Grafana;
 
-use Exception;
 use Illuminate\Support\Facades\Http;
-use Larapress\Core\Exceptions\AppException;
 
 class Client
 {

@@ -14,19 +14,10 @@ class LaravelEchoCRUDProvider implements ICRUDProvider, IPermissionsMetadata
     use BaseCRUDProvider;
 
     public $name_in_config = 'larapress.reports.routes.laravel_echo.name';
+    public $extend_in_config = 'larapress.reports.routes.laravel_echo.extend.providers';
     public $verbs = [
         self::REPORTS
     ];
-    public $model = null;
-    public $validRelations = [
-    ];
-    public $validSortColumns = [
-    ];
-    public $filterFields = [
-    ];
-    public $filterDefaults = [];
-
-
     /**
      *
      */

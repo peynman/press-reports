@@ -5,9 +5,7 @@ namespace Larapress\Reports\Services;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Larapress\Reports\Models\MetricCounter;
-use Larapress\CRUD\Events\CRUDCreated;
 use Illuminate\Database\Query\Builder;
-use Illuminate\Support\Facades\Log;
 
 class MetricsService implements IMetricsService
 {

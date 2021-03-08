@@ -1,12 +1,12 @@
 {
     "name": "peynman/larapress-reports",
-    "description": "Larapress Reports.",
+    "description": "TimeSeries and Metrics for @Larapress-crud based resources.",
     "type": "library",
     "license": "MIT",
     "minimum-stability": "dev",
     "authors": [{
         "name": "Peyman Abdi",
-        "email": "peyman.abdi.work@gmail.com"
+        "email": "larapress@peynman.ir"
     }],
     "autoload": {
         "psr-4": {
@@ -40,18 +40,5 @@
         "phpunit/phpunit": "^9.0",
         "phpmd/phpmd": "@stable",
         "squizlabs/php_codesniffer": "3.*"
-    },
-    "repositories": {
-        "influxdata/influxdb-client-php":{
-            "type": "vcs",
-            "url": "https://github.com/peynman/influxdb-client-php"
-        },
-        "peynman/larapress-crud": {
-            "type": "path",
-            "url": "../press-crud",
-            "options": {
-                "symlink": true
-            }
-        }
     }
 }

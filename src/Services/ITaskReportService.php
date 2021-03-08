@@ -2,7 +2,8 @@
 
 namespace Larapress\Reports\Services;
 
-interface ITaskReportService {
+interface ITaskReportService
+{
     /**
      * @param string $type
      * @param string $name

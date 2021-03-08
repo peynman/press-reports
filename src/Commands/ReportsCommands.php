@@ -43,7 +43,8 @@ class ReportsCommands extends ActionCommandBase
      *
      * @return void
      */
-    public function syncInfluxDB() {
+    public function syncInfluxDB()
+    {
         return function () {
             ini_set('memory_limit', '1024M');
             /** @var IReportsService */
@@ -57,7 +58,8 @@ class ReportsCommands extends ActionCommandBase
      *
      * @return void
      */
-    public function syncInfluxDBPurge() {
+    public function syncInfluxDBPurge()
+    {
         return function () {
             /** @var IReportsService */
             $scheduler = app()->make(IReportsService::class);
@@ -70,7 +72,8 @@ class ReportsCommands extends ActionCommandBase
      *
      * @return void
      */
-    public function queueScheduledTasks() {
+    public function queueScheduledTasks()
+    {
         return function () {
             /** @var ITaskReportService */
             $service = app(ITaskReportService::class);
@@ -78,7 +81,8 @@ class ReportsCommands extends ActionCommandBase
         };
     }
 
-    public function grabEchoStatistics() {
+    public function grabEchoStatistics()
+    {
         return function () {
             /** @var ILaravelEchoMetrics */
             $service = app(ILaravelEchoMetrics::class);

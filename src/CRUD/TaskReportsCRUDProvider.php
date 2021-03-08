@@ -13,6 +13,8 @@ class TaskReportsCRUDProvider implements ICRUDProvider, IPermissionsMetadata
     use BaseCRUDProvider;
 
     public $name_in_config = 'larapress.reports.routes.task_reports.name';
+    public $class_in_config = 'larapress.reports.routes.task_reports.model';
+    public $extend_in_config = 'larapress.reports.routes.task_reports.extend.providers';
     public $verbs = [
         self::VIEW,
         'queue',

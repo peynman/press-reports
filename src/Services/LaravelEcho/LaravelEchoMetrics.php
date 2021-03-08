@@ -5,13 +5,15 @@ namespace Larapress\Reports\Services\LaravelEcho;
 use Illuminate\Support\Facades\Log;
 use Larapress\Reports\Services\IReportsService;
 
-class LaravelEchoMetrics implements ILaravelEchoMetrics {
+class LaravelEchoMetrics implements ILaravelEchoMetrics
+{
     /**
      * Undocumented function
      *
      * @return void
      */
-    public function pushEchoMeasurements() {
+    public function pushEchoMeasurements()
+    {
         ini_set('memory_limit', '1G');
         ini_set('max_execution_time', 0);
 
@@ -49,7 +51,8 @@ class LaravelEchoMetrics implements ILaravelEchoMetrics {
      * @param string $endPiont
      * @return array
      */
-    protected function callEchoApiEndpoint($endPiont) {
+    protected function callEchoApiEndpoint($endPiont)
+    {
         $protocol = config('broadcasting.connections.pusher.options.scheme');
         $host = config('broadcasting.connections.pusher.options.host');
         $port = config('broadcasting.connections.pusher.options.port');
@@ -59,7 +62,7 @@ class LaravelEchoMetrics implements ILaravelEchoMetrics {
         // we are the parent
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $data = curl_exec($ch);
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);

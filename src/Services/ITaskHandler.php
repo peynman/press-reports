@@ -4,7 +4,8 @@ namespace Larapress\Reports\Services;
 
 use Larapress\Reports\Models\TaskReport;
 
-interface ITaskHandler {
+interface ITaskHandler
+{
     /**
      * Undocumented function
      *
