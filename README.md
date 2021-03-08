@@ -4,7 +4,7 @@
 A package to provide automatic and customized metrics and reporting for Larapress CRUD and other packages based on it.
 
 ## Dependencies
-* [Larapress CRUD](../../../larapress-crud)
+* [Larapress CRUD](../../../press-crud)
 
 ## Install
 1. ```composer require peynman/larapress-reports```
