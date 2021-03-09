@@ -24,6 +24,20 @@ class CreateTaskReportsTable extends Migration
             $table->dateTime('stopped_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
+
+            $table->index(
+                [
+                    'deleted_at',
+                    'created_at',
+                    'updated_at',
+                    'type',
+                    'name',
+                    'status',
+                    'started_at',
+                    'stopped_at'
+                ],
+                'task_reports_full_index'
+            );
         });
     }
 
