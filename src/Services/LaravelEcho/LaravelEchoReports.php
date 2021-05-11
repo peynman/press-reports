@@ -2,11 +2,11 @@
 
 namespace Larapress\Reports\Services\LaravelEcho;
 
-use Larapress\CRUD\Services\IReportSource;
+use Larapress\CRUD\Services\CRUD\ICRUDReportSource;
 use Larapress\Reports\Services\BaseReportSource;
 use Larapress\Reports\Services\IReportsService;
 
-class LaravelEchoReports implements IReportSource
+class LaravelEchoReports implements ICRUDReportSource
 {
     use BaseReportSource;
 

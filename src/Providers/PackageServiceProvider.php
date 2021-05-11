@@ -3,8 +3,11 @@
 namespace Larapress\Reports\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Larapress\Reports\Commands\BatchReportInfluxDB;
+use Larapress\Reports\Commands\BatchReportPurge;
+use Larapress\Reports\Commands\GrabEchoStats;
+use Larapress\Reports\Commands\QueueScheduledTasks;
 use Larapress\Reports\Services\IReportsService;
-use Larapress\Reports\Commands\ReportsCommands;
 use Larapress\Reports\InfluxDB\InfluxDBReportService;
 use Larapress\Reports\Services\LaravelEcho\ILaravelEchoMetrics;
 use Larapress\Reports\Services\IMetricsService;
@@ -44,7 +47,10 @@ class PackageServiceProvider extends ServiceProvider
 
         if ($this->app->runningInConsole()) {
             $this->commands([
-                ReportsCommands::class,
+                BatchReportPurge::class,
+                BatchReportInfluxDB::class,
+                GrabEchoStats::class,
+                QueueScheduledTasks::class,
             ]);
         }
     }

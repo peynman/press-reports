@@ -3,9 +3,9 @@
 
 namespace Larapress\Reports\CRUD;
 
-use Larapress\CRUD\Services\BaseCRUDProvider;
-use Larapress\CRUD\Services\ICRUDProvider;
-use Larapress\CRUD\Services\IPermissionsMetadata;
+use Larapress\CRUD\Services\CRUD\BaseCRUDProvider;
+use Larapress\CRUD\Services\CRUD\ICRUDProvider;
+use Larapress\CRUD\Services\RBAC\IPermissionsMetadata;
 use Larapress\Reports\Services\IReportsService;
 use Larapress\Reports\Services\LaravelEcho\LaravelEchoReports;
 
@@ -18,6 +18,7 @@ class LaravelEchoCRUDProvider implements ICRUDProvider, IPermissionsMetadata
     public $verbs = [
         self::REPORTS
     ];
+
     /**
      *
      */

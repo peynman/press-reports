@@ -2,9 +2,15 @@
 
 namespace Larapress\Reports\Controllers;
 
-use Larapress\CRUD\CRUDControllers\BaseCRUDController;
+use Larapress\CRUD\Services\CRUD\BaseCRUDController;
 use Larapress\Reports\CRUD\LaravelEchoCRUDProvider;
 
+
+/**
+ * Standard CRUD Controller for Laravel Echo resource.
+ *
+ * @group Laravel Echo Management
+ */
 class LaravelEchoController extends BaseCRUDController
 {
     public static function registerRoutes()

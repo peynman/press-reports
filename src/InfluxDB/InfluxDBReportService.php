@@ -173,7 +173,7 @@ class InfluxDBReportService implements IReportsService
      *
      * @return void
      */
-    public function barchReportPurge()
+    public function batchReportPurge()
     {
         $redis = Redis::connection(config('larapress.reports.batch.connection'));
         $redis->del(config('larapress.reports.batch.key'));

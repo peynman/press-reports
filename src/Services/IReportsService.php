@@ -34,7 +34,7 @@ interface IReportsService
      *
      * @return void
      */
-    public function barchReportPurge();
+    public function batchReportPurge();
 
     /**
      * Undocumented function

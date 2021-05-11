@@ -9,6 +9,6 @@ return [
             TaskReportStatus::EXECUTING => 'در حال اجرا',
             TaskReportStatus::FAILED => 'خطا',
             TaskReportStatus::SUCCESS => 'موفق',
-        ]
-    ]
+        ],
+    ],
 ];
