@@ -3,7 +3,7 @@
 namespace Larapress\Reports\Commands;
 
 use Illuminate\Console\Command;
-use Larapress\Reports\Services\ITaskReportService;
+use Larapress\Reports\Services\TaskScheduler\ITaskSchedulerService;
 
 class QueueScheduledTasks extends Command
 {

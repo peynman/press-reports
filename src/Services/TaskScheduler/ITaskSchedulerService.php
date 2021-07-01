@@ -1,8 +1,8 @@
 <?php
 
-namespace Larapress\Reports\Services;
+namespace Larapress\Reports\Services\TaskScheduler;
 
-interface ITaskReportService
+interface ITaskSchedulerService
 {
     /**
      * @param string $type

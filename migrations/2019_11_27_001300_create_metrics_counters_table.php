@@ -16,12 +16,13 @@ class CreateMetricsCountersTable extends Migration
         Schema::create('metrics_counters', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('domain_id', false, true)->nullable();
+            $table->string('type')->nullable();
             $table->string('group')->nullable();
             $table->string('key');
             $table->decimal('value', 12, 2);
             $table->timestamp('created_at');
 
-            $table->index(['created_at', 'domain_id', 'group', 'key']);
+            $table->index(['created_at', 'domain_id', 'type', 'group', 'key']);
             $table->foreign('domain_id')->references('id')->on('domains');
         });
     }

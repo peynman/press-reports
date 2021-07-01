@@ -41,6 +41,7 @@ class GrabEchoStats extends Command
     {
         /** @var ILaravelEchoMetrics */
         $service = app(ILaravelEchoMetrics::class);
+
         $service->pushEchoMeasurements();
 
         $this->info("Done.");

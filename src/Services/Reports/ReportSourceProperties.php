@@ -1,44 +1,32 @@
 <?php
 
-namespace Larapress\Reports\Services;
+namespace Larapress\Reports\Services\Reports;
 
 use Carbon\Carbon;
-use Larapress\CRUD\ICRUDUser;
 
-trait BaseReportSource
-{
+use Larapress\Profiles\IProfileUser;
 
-    /**
-     * Undocumented function
-     *
-     * @param [type] $user
-     * @return void
-     */
-    public function getReportNames($user)
-    {
-        return array_keys($this->avReports);
-    }
-
-    /**
-     * grab data from database and present it
-     *
-     * @param ICRUDUser $user
-     * @return void
-     */
-    public function getReport($user, string $name, array $options = [])
-    {
-        return $this->avReports[$name]($user, $options);
-    }
+class ReportSourceProperties {
+    /** @var Carbon */
+    public $from;
+    /** @var Carbon */
+    public $to;
+    /** @var array */
+    public $filters;
+    /** @var array */
+    public $groups;
+    /** @var string */
+    public $window;
 
     /**
      * Undocumented function
      *
-     * @param ICRUDUser $user
+     * @param IProfileUser $user
      * @param array $options
-     * @return [array $filters, Carbon $from, Carbon $to, array $groups]
+     *
+     * @return ReportSourceProperties
      */
-    public function getCommonReportProps($user, $options)
-    {
+    public static function fromReportSourceOptions(IProfileUser $user, array $options) {
         $filters = [];
 
         $providers = config('larapress.reports.common_filters');
@@ -67,8 +55,17 @@ trait BaseReportSource
         if (isset($options['to'])) {
             $toC = Carbon::parse($options['to'])->utc();
         }
-        $groups = isset($options['group']) ? $options['group'] : [];
 
-        return [$filters, $fromC, $toC, $groups];
+        $groups = isset($options['group']) ? $options['group'] : [];
+        $window = isset($options['window']) ? $options['window'] : '1h';
+
+        $props = new ReportSourceProperties();
+        $props->from = $fromC;
+        $props->to = $toC;
+        $props->filters = $filters;
+        $props->groups = $groups;
+        $props->window = $window;
+
+        return $props;
     }
 }

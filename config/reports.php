@@ -1,20 +1,14 @@
 <?php
 
 return [
-    'grafana' => [
-        'base' => env('GRAFANA_API_SCHEMA', 'http').'://'.env('GRAFANA_API_HOST', 'grafana').':'.env('GRAFANA_API_PORT', 3000).'/',
-        'auth_token' => env('GRAFANA_API_TOKEN', ''),
-        'admin_username' => env('GRAFANA_API_ADMIN_USER', 'grafana'),
-        'admin_password' => env('GRAFANA_API_ADMIN_PASS', 'grafanapass'),
-        'orgId' => env('GRAFANA_API_ORG_ID', 1)
+    'reports' => [
+        // store measurements in influxdb database
+        'reports_service' => true,
+        // store measurements in internal database (eloquent)
+        'metrics_table' => true,
     ],
 
-    'queue' => [
-        'name' => 'listeners',
-        'connection' => 'default',
-        'delay' => 0
-    ],
-
+    // batch reporting settings
     'batch' => [
         'connection' => 'default',
         'key' => 'crud.reports.list',
@@ -22,6 +16,7 @@ return [
         'batch_interval' => 60000, // milliseconds
     ],
 
+    // influxdb connection
     'influxdb' => [
         'schema' => env('INFLUXDB_SCHEMA', 'http'),
         'host' => env('INFLUXDB_HOST', 'influxdb'),
@@ -31,9 +26,27 @@ return [
         'org' => env('INFLUXDB_ORG', 'app'),
     ],
 
-
+    // filters applied to all reports
     'common_filters' => [
-        \Larapress\Profiles\Services\DomainMetircs\DomainMetircsProvider::class,
+        \Larapress\Profiles\Services\DomainMetrics\DomainMetricsProvider::class,
+    ],
+
+    // crud resources of the package
+    'routes' => [
+        'task_reports' => [
+            'name' => 'task-reports',
+            'model' => \Larapress\Reports\Models\TaskReport::class,
+            'provider' => \Larapress\Reports\CRUD\TaskReportsCRUDProvider::class,
+        ],
+        'metrics' => [
+            'name' => 'metrics',
+            'model' => \Larapress\Reports\Models\MetricCounter::class,
+            'provider' => \Larapress\Reports\CRUD\MetricsCRUDProvider::class,
+        ],
+        'laravel_echo' => [
+            'name' => 'laravel-echo',
+            'provider' => \Larapress\Reports\CRUD\LaravelEchoCRUDProvider::class,
+        ],
     ],
 
     'permissions' => [
@@ -48,30 +61,4 @@ return [
         \Larapress\Reports\Controllers\TaskReportController::class,
     ],
 
-    'routes' => [
-        'task_reports' => [
-            'name' => 'task-reports',
-            'model' => \Larapress\Reports\Models\TaskReport::class,
-            'extend' => [
-                'providers' => [
-                ]
-            ],
-        ],
-        'metrics' => [
-            'name' => 'metrics',
-            'model' => \Larapress\ECommerce\Models\CartMetricsCounter::class,
-            // 'model' => \Larapress\Reports\Models\MetricCounter::class,
-            'extend' => [
-                'providers' => [
-                    \Larapress\ECommerce\CRUD\ProductMetricsCRUDProvider::class,
-                ]
-            ],
-        ],
-        'laravel_echo' => [
-            'name' => 'laravel-echo',
-            'extend' => [
-                'providers' => []
-            ],
-        ],
-    ],
 ];

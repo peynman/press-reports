@@ -3,7 +3,7 @@
 namespace Larapress\Reports\Services\LaravelEcho;
 
 use Illuminate\Support\Facades\Log;
-use Larapress\Reports\Services\IReportsService;
+use Larapress\Reports\Services\Reports\IReportsService;
 
 class LaravelEchoMetrics implements ILaravelEchoMetrics
 {
@@ -14,35 +14,38 @@ class LaravelEchoMetrics implements ILaravelEchoMetrics
      */
     public function pushEchoMeasurements()
     {
-        ini_set('memory_limit', '1G');
-        ini_set('max_execution_time', 0);
+        if (config('larapress.reports.reports.reports_service')) {
+            ini_set('memory_limit', '1G');
+            ini_set('max_execution_time', 0);
 
-        $subscription_count = 0;
-        $users_count = 0;
-        $users_list = [];
+            $subscription_count = 0;
+            $users_count = 0;
+            $users_list = [];
 
-        [$httpCode, $data] = $this->callEchoApiEndpoint("channels/presence-website");
-        if ($httpCode === 200) {
-            if (isset($data['subscription_count'])) {
-                $subscription_count = intval($data['subscription_count']);
-            }
-            if (isset($data['user_count'])) {
-                $users_count = intval($data['user_count']);
-                if ($users_count > 0) {
-                    [$httpCode, $data] = $this->callEchoApiEndpoint("channels/presence-website/users");
-                    if ($httpCode === 200 && isset($data['users'])) {
-                        foreach ($data['users'] as $user) {
-                            $users_list[] = $user['id'];
+            [$httpCode, $data] = $this->callEchoApiEndpoint("channels/presence-website");
+            if ($httpCode === 200) {
+                if (isset($data['subscription_count'])) {
+                    $subscription_count = intval($data['subscription_count']);
+                }
+                if (isset($data['user_count'])) {
+                    $users_count = intval($data['user_count']);
+                    if ($users_count > 0) {
+                        [$httpCode, $data] = $this->callEchoApiEndpoint("channels/presence-website/users");
+                        if ($httpCode === 200 && isset($data['users'])) {
+                            foreach ($data['users'] as $user) {
+                                $users_list[] = $user['id'];
+                            }
                         }
                     }
                 }
+
+                /** @var IReportsService */
+                $service = app(IReportsService::class);
+
+                $service->pushMeasurement("website.online_tabs", $subscription_count, [], [], time());
+                $service->pushMeasurement("website.online_users", $users_count, [], [], time());
             }
         }
-
-        /** @var IReportsService */
-        $service = app(IReportsService::class);
-        $service->pushMeasurement("website.online_tabs", $subscription_count, [], [], time());
-        $service->pushMeasurement("website.online_users", $users_count, [], [], time());
     }
 
     /**

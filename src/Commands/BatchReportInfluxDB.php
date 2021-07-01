@@ -3,7 +3,7 @@
 namespace Larapress\Reports\Commands;
 
 use Illuminate\Console\Command;
-use Larapress\Reports\Services\IReportsService;
+use Larapress\Reports\Services\Reports\IReportsService;
 
 class BatchReportInfluxDB extends Command
 {

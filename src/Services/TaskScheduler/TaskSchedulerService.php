@@ -1,6 +1,6 @@
 <?php
 
-namespace Larapress\Reports\Services;
+namespace Larapress\Reports\Services\TaskScheduler;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -10,7 +10,7 @@ use Larapress\Reports\CRUD\TaskReportsCRUDProvider;
 use Larapress\Reports\Flags\TaskReportStatus;
 use Larapress\Reports\Models\TaskReport;
 
-class TaskReportService implements ITaskReportService
+class TaskSchedulerService implements ITaskScheduerService
 {
 
     /**

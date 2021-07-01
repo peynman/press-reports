@@ -2,7 +2,7 @@
 
 namespace Larapress\Reports\Controllers;
 
-use Larapress\CRUD\Services\CRUD\BaseCRUDController;
+use Larapress\CRUD\Services\CRUD\CRUDController;
 use Larapress\Reports\CRUD\MetricsCRUDProvider;
 
 /**
@@ -10,15 +10,14 @@ use Larapress\Reports\CRUD\MetricsCRUDProvider;
  *
  * @group Metrics Management
  */
-class MetricsController extends BaseCRUDController
+class MetricsController extends CRUDController
 {
     public static function registerRoutes()
     {
         parent::registerCrudRoutes(
             config('larapress.reports.routes.metrics.name'),
             self::class,
-            MetricsCRUDProvider::class,
-            []
+            config('larapress.reports.routes.metrics.provider'),
         );
     }
 }

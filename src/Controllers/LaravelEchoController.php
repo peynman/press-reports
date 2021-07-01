@@ -2,7 +2,7 @@
 
 namespace Larapress\Reports\Controllers;
 
-use Larapress\CRUD\Services\CRUD\BaseCRUDController;
+use Larapress\CRUD\Services\CRUD\CRUDController;
 use Larapress\Reports\CRUD\LaravelEchoCRUDProvider;
 
 
@@ -11,15 +11,14 @@ use Larapress\Reports\CRUD\LaravelEchoCRUDProvider;
  *
  * @group Laravel Echo Management
  */
-class LaravelEchoController extends BaseCRUDController
+class LaravelEchoController extends CRUDController
 {
     public static function registerRoutes()
     {
         parent::registerCrudRoutes(
             config('larapress.reports.routes.laravel_echo.name'),
             self::class,
-            LaravelEchoCRUDProvider::class,
-            []
+            config('larapress.reports.routes.laravel_echo.provider'),
         );
     }
 }

@@ -3,19 +3,21 @@
 
 namespace Larapress\Reports\CRUD;
 
-use Larapress\CRUD\Services\CRUD\BaseCRUDProvider;
+use Larapress\CRUD\Services\CRUD\Traits\CRUDProviderTrait;
 use Larapress\CRUD\Services\CRUD\ICRUDProvider;
+use Larapress\CRUD\Services\CRUD\ICRUDVerb;
 use Larapress\CRUD\Services\RBAC\IPermissionsMetadata;
 
-class MetricsCRUDProvider implements ICRUDProvider, IPermissionsMetadata
+class MetricsCRUDProvider implements ICRUDProvider
 {
-    use BaseCRUDProvider;
+    use CRUDProviderTrait;
 
     public $name_in_config = 'larapress.reports.routes.metrics.name';
-    public $class_in_config = 'larapress.reports.routes.metrics.model';
-    public $extend_in_config = 'larapress.reports.routes.metrics.extend.providers';
+    public $model_in_config = 'larapress.reports.routes.metrics.model';
+    public $compositions_in_config = 'larapress.reports.routes.metrics.compositions';
+
     public $verbs = [
-        self::VIEW
+        ICRUDVerb::VIEW
     ];
     public $validSortColumns = [
         'id',

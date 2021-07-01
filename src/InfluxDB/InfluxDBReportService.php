@@ -4,7 +4,7 @@ namespace Larapress\Reports\InfluxDB;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Redis;
-use Larapress\Reports\Services\IReportsService;
+use Larapress\Reports\Services\Reports\IReportsService;
 use InfluxDB2\Client;
 use InfluxDB2\Point;
 use InfluxDB2\WriteType as WriteType;

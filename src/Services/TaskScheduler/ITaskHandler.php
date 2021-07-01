@@ -1,6 +1,6 @@
 <?php
 
-namespace Larapress\Reports\Services;
+namespace Larapress\Reports\Services\TaskScheduler;
 
 use Larapress\Reports\Models\TaskReport;
 

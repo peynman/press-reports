@@ -8,6 +8,8 @@ use Larapress\Profiles\Models\Domain;
 /**
  * @property int            $id
  * @property string         $key
+ * @property string         $type
+ * @property string         $group
  * @property float          $value
  * @property string         $group
  * @property Domain         $domain
@@ -25,6 +27,7 @@ class MetricCounter extends Model
 
     protected $fillable = [
         'key',
+        'type',
         'group',
         'value',
         'domain_id',

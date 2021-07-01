@@ -4,17 +4,20 @@
 namespace Larapress\Reports\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Larapress\Profiles\IProfileUser;
 
 /**
  * @property int            $id
+ * @property int            $author_id
+ * @property IProfileUser   $author
  * @property string         $type
  * @property string         $title
  * @property string         $name
  * @property int            $status
- * @property \Carbon\Carbon $stopped_at
- * @property \Carbon\Carbon $stopped_at
  * @property string         $description
  * @property array          $data
+ * @property \Carbon\Carbon $stopped_at
+ * @property \Carbon\Carbon $stopped_at
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  */
@@ -41,4 +44,12 @@ class TaskReport extends Model
         'stopped_at',
         'started_at',
     ];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function author()
+    {
+        return $this->belongsTo(config('larapress.crud.user.model'), 'author_id');
+    }
 }

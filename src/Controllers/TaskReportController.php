@@ -2,9 +2,9 @@
 
 namespace Larapress\Reports\Controllers;
 
-use Larapress\CRUD\Services\CRUD\BaseCRUDController;
+use Larapress\CRUD\Services\CRUD\CRUDController;
 use Larapress\Reports\CRUD\TaskReportsCRUDProvider;
-use Larapress\Reports\Services\ITaskReportService;
+use Larapress\Reports\Services\TaskScheduler\ITaskSchedulerService;
 use Larapress\Reports\Models\TaskReport;
 
 /**
@@ -12,7 +12,7 @@ use Larapress\Reports\Models\TaskReport;
  *
  * @group Task Reports
  */
-class TaskReportController extends BaseCRUDController
+class TaskReportController extends CRUDController
 {
     public static function registerRoutes()
     {
