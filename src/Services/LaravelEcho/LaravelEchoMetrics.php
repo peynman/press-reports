@@ -2,7 +2,10 @@
 
 namespace Larapress\Reports\Services\LaravelEcho;
 
+use App\CustomUserCRUDProvider;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Larapress\CRUD\Services\CRUD\ICRUDService;
 use Larapress\Reports\Services\Reports\IReportsService;
 
 class LaravelEchoMetrics implements ILaravelEchoMetrics

@@ -54,11 +54,4 @@ return [
         \Larapress\Reports\CRUD\TaskReportsCRUDProvider::class,
         \Larapress\Reports\CRUD\LaravelEchoCRUDProvider::class,
     ],
-
-    'controllers' => [
-        \Larapress\Reports\Controllers\MetricsController::class,
-        \Larapress\Reports\Controllers\LaravelEchoController::class,
-        \Larapress\Reports\Controllers\TaskReportController::class,
-    ],
-
 ];

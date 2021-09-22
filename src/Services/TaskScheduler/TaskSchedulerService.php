@@ -7,10 +7,9 @@ use Illuminate\Support\Facades\Auth;
 use Larapress\CRUD\Events\CRUDVerbEvent;
 use Larapress\CRUD\Exceptions\AppException;
 use Larapress\Reports\CRUD\TaskReportsCRUDProvider;
-use Larapress\Reports\Flags\TaskReportStatus;
 use Larapress\Reports\Models\TaskReport;
 
-class TaskSchedulerService implements ITaskScheduerService
+class TaskSchedulerService implements ITaskSchedulerService
 {
 
     /**
@@ -29,10 +28,10 @@ class TaskSchedulerService implements ITaskScheduerService
         $task = TaskReport::firstOrCreate([
             'type' => $type,
             'name' => $name,
-            'status' => TaskReportStatus::CREATED,
+            'status' => TaskReport::STATUS_CREATED,
         ]);
         $task->update([
-            'status' => TaskReportStatus::EXECUTING,
+            'status' => TaskReport::STATUS_EXECUTING,
             'description' => $desc,
             'data' => $data,
             'started_at' => Carbon::now(),
@@ -40,7 +39,7 @@ class TaskSchedulerService implements ITaskScheduerService
         CRUDVerbEvent::dispatch(Auth::user(), $task, TaskReportsCRUDProvider::class, Carbon::now(), 'queue');
         $onSuccess = function ($desc, $data) use ($task) {
             $task->update([
-                'status' => TaskReportStatus::SUCCESS,
+                'status' => TaskReport::STATUS_SUCCESS,
                 'description' => $desc,
                 'data' => $data,
                 'stopped_at' => Carbon::now(),
@@ -49,7 +48,7 @@ class TaskSchedulerService implements ITaskScheduerService
         };
         $onFailed = function ($desc, $data) use ($task) {
             $task->update([
-                'status' => TaskReportStatus::FAILED,
+                'status' => TaskReport::STATUS_FAILED,
                 'description' => $desc,
                 'data' => $data,
                 'stopped_at' => Carbon::now(),
@@ -58,7 +57,7 @@ class TaskSchedulerService implements ITaskScheduerService
         };
         $onUpdate = function ($desc, $data) use ($task) {
             $task->update([
-                'status' => TaskReportStatus::EXECUTING,
+                'status' => TaskReport::STATUS_EXECUTING,
                 'description' => $desc,
                 'data' => $data,
                 'stopped_at' => Carbon::now(),
@@ -84,7 +83,7 @@ class TaskSchedulerService implements ITaskScheduerService
         return TaskReport::firstOrCreate([
             'type' => $type,
             'name' => $name,
-            'status' => TaskReportStatus::CREATED,
+            'status' => TaskReport::STATUS_CREATED,
         ], [
             'data' => array_merge($data, ['auto_start' => $autoStart]),
             'desc' => $desc,
@@ -98,7 +97,7 @@ class TaskSchedulerService implements ITaskScheduerService
     public function queueScheduledTasks()
     {
         /** @var TaskReport[] */
-        $tasks = TaskReport::where('status', TaskReportStatus::CREATED)->get();
+        $tasks = TaskReport::where('status', TaskReport::STATUS_CREATED)->get();
         foreach ($tasks as $task) {
             $typeClass = $task->type;
             /** @var ITaskHandler */
@@ -132,7 +131,7 @@ class TaskSchedulerService implements ITaskScheduerService
     {
         /** @var TaskReport */
         $task = TaskReport::find($id);
-        if ($task->status === TaskReportStatus::EXECUTING) {
+        if ($task->status === TaskReport::STATUS_EXECUTING) {
             throw new AppException(AppException::ERR_ALREADY_EXECUTED);
         }
 

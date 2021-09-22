@@ -6,8 +6,7 @@ namespace Larapress\Reports\CRUD;
 use Larapress\CRUD\Services\CRUD\Traits\CRUDProviderTrait;
 use Larapress\CRUD\Services\CRUD\ICRUDProvider;
 use Larapress\CRUD\Services\CRUD\ICRUDVerb;
-use Larapress\CRUD\Services\RBAC\IPermissionsMetadata;
-use Larapress\Reports\Models\TaskReport;
+use Larapress\Reports\Controllers\TaskReportController;
 
 class TaskReportsCRUDProvider implements ICRUDProvider
 {
@@ -17,10 +16,6 @@ class TaskReportsCRUDProvider implements ICRUDProvider
     public $model_in_config = 'larapress.reports.routes.task_reports.model';
     public $compositions_in_config = 'larapress.reports.routes.metrics.compositions';
 
-    public $verbs = [
-        ICRUDVerb::VIEW,
-        'queue',
-    ];
     public $validSortColumns = [
         'id',
         'name',
@@ -38,6 +33,22 @@ class TaskReportsCRUDProvider implements ICRUDProvider
         'created_to' => 'before:created_at',
     ];
 
+    /**
+     * Undocumented function
+     *
+     * @return array
+     */
+    public function getPermissionVerbs(): array
+    {
+        return [
+            ICRUDVerb::VIEW,
+            'queue' => [
+                'uses' => '\\' . TaskReportController::class . '@queueTask',
+                'methods' => ['POST'],
+                'url' => config('larapress.reports.routes.task_reports.name') . '/queue/{id}',
+            ]
+        ];
+    }
 
     /**
      * Undocumented function

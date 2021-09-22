@@ -23,6 +23,11 @@ use Larapress\Profiles\IProfileUser;
  */
 class TaskReport extends Model
 {
+    const STATUS_CREATED = 1;
+    const STATUS_EXECUTING = 2;
+    const STATUS_FAILED = 3;
+    const STATUS_SUCCESS = 4;
+
     protected $table = 'task_reports';
 
     protected $fillable = [

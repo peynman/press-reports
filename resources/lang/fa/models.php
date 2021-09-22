@@ -1,14 +1,14 @@
 <?php
 
-use Larapress\Reports\Flags\TaskReportStatus;
+use Larapress\Reports\Models\TaskReport;
 
 return [
     'task-reports' => [
         'status' => [
-            TaskReportStatus::CREATED => 'ساخته شد',
-            TaskReportStatus::EXECUTING => 'در حال اجرا',
-            TaskReportStatus::FAILED => 'خطا',
-            TaskReportStatus::SUCCESS => 'موفق',
+            TaskReport::STATUS_CREATED => 'ساخته شد',
+            TaskReport::STATUS_EXECUTING => 'در حال اجرا',
+            TaskReport::STATUS_FAILED => 'خطا',
+            TaskReport::STATUS_SUCCESS => 'موفق',
         ],
     ],
 ];
