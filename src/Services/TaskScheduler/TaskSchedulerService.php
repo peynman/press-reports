@@ -77,7 +77,7 @@ class TaskSchedulerService implements ITaskSchedulerService
      * @param array $data
      * @return TaskReport
      */
-    public function scheduleTask(string $type, string $name, string $desc, array $data, $autoStart = false)
+    public function scheduleTask(string $type, string $name, string $desc, array $data, string|bool $autoStart = false)
     {
         /** @var TaskReport $task */
         return TaskReport::firstOrCreate([
@@ -96,23 +96,21 @@ class TaskSchedulerService implements ITaskSchedulerService
      */
     public function queueScheduledTasks()
     {
+        $now = Carbon::now();
         /** @var TaskReport[] */
         $tasks = TaskReport::where('status', TaskReport::STATUS_CREATED)->get();
+
         foreach ($tasks as $task) {
-            $typeClass = $task->type;
-            /** @var ITaskHandler */
-            $handler = new $typeClass();
             if (isset($task->data['auto_start']) && $task->data['auto_start']) {
                 if (!isset($task->data['queued_at'])) {
                     if (is_string($task->data['auto_start'])) {
                         $timestamp = Carbon::parse($task->data['auto_start']);
+
+                        if ($now->isAfter($timestamp)) {
+                            $this->runTask($task);
+                        }
                     } else {
-                        $handler->handle($task);
-                        $data = $task->data;
-                        $data['queued_at'] = Carbon::now();
-                        $task->update([
-                            'data' => $data,
-                        ]);
+                        $this->runTask($task);
                     }
                 }
             }
@@ -135,17 +133,29 @@ class TaskSchedulerService implements ITaskSchedulerService
             throw new AppException(AppException::ERR_ALREADY_EXECUTED);
         }
 
+        $this->runTask($task);
+
+        return $task;
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param TaskReport $task
+     * @return void
+     */
+    protected function runTask($task)
+    {
         $typeClass = $task->type;
         /** @var ITaskHandler */
         $handler = new $typeClass();
 
         $handler->handle($task);
+
         $data = $task->data;
         $data['queued_at'] = Carbon::now();
         $task->update([
             'data' => $data,
         ]);
-
-        return $task;
     }
 }

@@ -39,8 +39,8 @@ class QueueScheduledTasks extends Command
      */
     public function handle()
     {
-        /** @var ITaskReportService */
-        $service = app(ITaskReportService::class);
+        /** @var ITaskSchedulerService */
+        $service = app(ITaskSchedulerService::class);
         $service->queueScheduledTasks();
 
         $this->info("Done.");

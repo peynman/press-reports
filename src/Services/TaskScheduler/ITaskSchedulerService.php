@@ -24,10 +24,10 @@ interface ITaskSchedulerService
      * @param string $name
      * @param string $desc
      * @param array $data
-     * @param bool|string $desc
+     * @param bool|string $autoStart
      * @return void
      */
-    public function scheduleTask(string $type, string $name, string $desc, array $data, $autoStart = false);
+    public function scheduleTask(string $type, string $name, string $desc, array $data, string|bool $autoStart = false);
 
     /**
      * Undocumented function
