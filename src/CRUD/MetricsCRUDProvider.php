@@ -17,7 +17,8 @@ class MetricsCRUDProvider implements ICRUDProvider
     public $compositions_in_config = 'larapress.reports.routes.metrics.compositions';
 
     public $verbs = [
-        ICRUDVerb::VIEW
+        ICRUDVerb::VIEW,
+        ICRUDVerb::SHOW,
     ];
     public $validSortColumns = [
         'id',

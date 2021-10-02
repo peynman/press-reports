@@ -42,6 +42,7 @@ class TaskReportsCRUDProvider implements ICRUDProvider
     {
         return [
             ICRUDVerb::VIEW,
+            ICRUDVerb::SHOW,
             'queue' => [
                 'uses' => '\\' . TaskReportController::class . '@queueTask',
                 'methods' => ['POST'],
