@@ -2,66 +2,90 @@
 
 namespace Larapress\Reports\Services\Reports;
 
+use Larapress\Reports\Models\MetricCounter;
+use Illuminate\Database\Eloquent\Builder;
+use Larapress\Profiles\IProfileUser;
+
 interface IMetricsService
 {
     /**
      * Undocumented function
      *
-     * @param int $domain_id
-     * @param string $type
+     * @param integer $domain_id
+     * @param integer|null $user_id
+     * @param integer|null $product_id
+     * @param array|null $group_ids
+     * @param integer $type
      * @param string $group
      * @param string $key
      * @param float $value
-     * @param Carbon|int|null $timestamp
+     * @param array|null $data
+     * @param Carbon|null|int $timestamp
      *
-     * @return void
+     * @return MetricCounter
      */
-    public function pushMeasurement(int $domain_id, string $type, string $group, string $key, float $value, $timestamp = null);
+    public function pushMeasurement(
+        int $domain_id,
+        int|null $user_id,
+        int|null $product_id,
+        array|null $group_ids,
+        int $type,
+        string $group,
+        string $key,
+        float $value,
+        array|null $data,
+        $timestamp = null
+    );
 
-    /**
-     * Undocumented function
-
-     * @param string $key
-     * @param string|null $group
-     * @param array $domains
-     * @param Carbon|null $from
-     * @param Carbon|null $to
-     *
-     * @return float
-     */
-    public function sumMeasurement(string $key, $type, $group, array $domains = [], $from = null, $to = null): float;
-
-
-    /**
-     * Undocumented function
-     *
-     * @param string $key
-     * @param string|null $group
-     * @param array $filters
-     * @param array $groups
-     * @param array $domains
-     * @param Carbon|null $from
-     * @param Carbon|null $to
-     *
-     * @return array
-     */
-    public function queryMeasurement(string $key, $type, $group, array $filters = [], array $groups = [], array $domains = [], $from = null, $to = null);
 
     /**
      * Undocumented function
      *
+     * @param integer $domain_id
+     * @param integer|null $user_id
+     * @param integer|null $product_id
+     * @param array|null $group_ids
+     * @param integer $type
+     * @param string $group
      * @param string $key
-     * @param string|null $group
-     * @param array $filters
-     * @param array $groups
-     * @param array $domains
-     * @param Carbon|null $from
-     * @param Carbon|null $to
-     * @param int $window
+     * @param float $value
+     * @param array|null $data
+     * @param Carbon|null|int $timestamp
      *
-     * @return array
+     * @return MetricCounter
      */
-    public function aggregateMeasurement(string $key, $type, $group, array $filters, array $groups = [], array $domains = [], $from = null, $to = null, $window = 84600);
+    public function updateMeasurement(
+        int $domain_id,
+        int|null $user_id,
+        int|null $product_id,
+        array|null $group_ids,
+        int $type,
+        string $group,
+        string $key,
+        float $value,
+        array|null $data,
+        $timestamp = null
+    );
+
+    /**
+     * Undocumented function
+     *
+     * @param IProfileUser $user
+     * @param ReportQueryRequest $request
+     * @param string $group
+     * @param integer $type
+     * @param string|null $func
+     * @param integer|null $window
+     * @return Builder
+     */
+    public function measurementQuery(
+        IProfileUser $user,
+        ReportQueryRequest $request,
+        string $group,
+        int $type,
+        ?string $func = null,
+        ?int $window = null,
+    ): Builder;
 
     /**
      * Undocumented function
@@ -72,5 +96,5 @@ interface IMetricsService
      *
      * @return int
      */
-    public function removeMeasurement($domain_id, string $type, string $group, $key = null);
+    public function removeMeasurement($domain_id, int $type, string|null $group, $key = null);
 }

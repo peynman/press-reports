@@ -2,10 +2,13 @@
 
 namespace Larapress\Reports\Services\Reports;
 
-use Larapress\CRUD\ICRUDUser;
+use Illuminate\Database\Eloquent\Builder;
+use Larapress\Profiles\IProfileUser;
 
 trait ReportSourceTrait
 {
+    protected $avReports = [];
+
     /**
      * Undocumented function
      *
@@ -13,7 +16,7 @@ trait ReportSourceTrait
      *
      * @return string[]
      */
-    public function getReportNames(ICRUDUser $user)
+    public function getReportNames(IProfileUser $user): array
     {
         return array_keys($this->avReports);
     }
@@ -25,8 +28,18 @@ trait ReportSourceTrait
      *
      * @return array
      */
-    public function getReport(ICRUDUser $user, string $name, array $options = [])
+    public function getReport(IProfileUser $user, string $name, ReportQueryRequest $request): array
     {
-        return $this->avReports[$name]($user, $options);
+        return $this->avReports[$name]($user, $request);
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @return IMetricsService
+     */
+    public function getMetricsService(): IMetricsService
+    {
+        return app(IMetricsService::class);
     }
 }

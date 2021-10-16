@@ -1,13 +1,6 @@
 <?php
 
 return [
-    'reports' => [
-        // store measurements in influxdb database
-        'reports_service' => true,
-        // store measurements in internal database (eloquent)
-        'metrics_table' => true,
-    ],
-
     // batch reporting settings
     'batch' => [
         'connection' => 'default',
@@ -24,11 +17,6 @@ return [
         'database' => env('INFLUXDB_DB', 'app'),
         'token' => env('INFLUXDB_TOKEN', ''),
         'org' => env('INFLUXDB_ORG', 'app'),
-    ],
-
-    // filters applied to all reports
-    'common_filters' => [
-        \Larapress\Profiles\Services\DomainMetrics\DomainMetricsProvider::class,
     ],
 
     // crud resources of the package

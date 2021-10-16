@@ -14,7 +14,7 @@ class MetricsSourceProperties {
     /** @var array */
     public $filters;
     /** @var array */
-    public $groups;
+    public $groupBy;
     /** @var string */
     public $window;
     /** @var array */
@@ -28,19 +28,8 @@ class MetricsSourceProperties {
      *
      * @return MetricsSourceProperties
      */
-    public static function fromReportSourceOptions(IProfileUser $user, array $options, array $dotGroupsPositions = []) {
+    public static function fromReportSourceOptions(IProfileUser $user, ReportQueryRequest $request) {
         $filters = [];
-
-        $providers = config('larapress.reports.common_filters');
-        if (!is_null($providers) && count($providers)) {
-            foreach ($providers as $providerClass) {
-                if (is_string($providerClass)) {
-                    /** @var IReportsServciceProvider $provider */
-                    $provider = new $providerClass();
-                    $filters = array_merge($filters, $provider->getFiltersForReports($user, $options));
-                }
-            }
-        }
 
         $domains = [];
         if (isset($filters['domain'])) {
@@ -48,40 +37,15 @@ class MetricsSourceProperties {
             unset($filters['domain']);
         }
 
-        $groups = [];
-        $avDotGroups = array_keys($dotGroupsPositions);
-        if (isset($options['filters'])) {
-            foreach ($options['filters'] as $filter => $value) {
-                if (in_array($filter, $avDotGroups)) {
-                    $groups[$filter] = $dotGroupsPositions[$filter];
-                    $filters[$filter] = $value;
-                }
-            }
-        }
-
-        if (isset($options['groups'])) {
-            if (is_string($options['groups'])) {
-                if (isset($avDotGroups[$options['groups']])) {
-                    $groups[$options['groups']] = $avDotGroups[$options['groups']];
-                }
-            } else if (is_array($options['groups'])) {
-                foreach ($options['groups'] as $group) {
-                    if (is_string($group)) {
-                        if (isset($dotGroupsPositions[$group])) {
-                            $groups[$dotGroupsPositions[$group]] = $group;
-                        }
-                    }
-                }
-            }
-        }
-
-        $fromC = Carbon::now()->addHour(-6);
-        $toC = Carbon::now();
         if (isset($options['from'])) {
             $fromC = Carbon::parse($options['from'])->utc();
+        } else {
+            $fromC = Carbon::now()->addHour(-6);
         }
         if (isset($options['to'])) {
             $toC = Carbon::parse($options['to'])->utc();
+        } else {
+            $toC = Carbon::now();
         }
 
         $window = isset($options['window']) ? $options['window'] : 3600;
