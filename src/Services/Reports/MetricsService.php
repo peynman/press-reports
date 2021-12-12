@@ -203,7 +203,7 @@ class MetricsService implements IMetricsService
      */
     public function getVisibleGroups(IProfileUser $user): array
     {
-        if ($user->hasRole(config('larapress.profiles.form_role_profiles.super-role'))) {
+        if ($user->hasRole(config('larapress.profiles.security.roles.super-role'))) {
             return [];
         } else {
             return $user->getAdministrateGroupIds();
